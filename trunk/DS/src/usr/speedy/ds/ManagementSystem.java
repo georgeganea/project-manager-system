@@ -52,11 +52,11 @@ public class ManagementSystem extends HttpServlet {
 
 
 			String url =
-				"jdbc:mysql://localhost:3306/mydb";
+				"jdbc:mysql://localhost:3306/programmers";
 
 			Connection con =
 				DriverManager.getConnection(
-						url,"root", "");
+						url,"speedy", "speedy");
 			System.out.println("URL: " + url);
 			System.out.println("Connection: " + con);
 
