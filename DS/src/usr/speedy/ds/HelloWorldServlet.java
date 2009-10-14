@@ -16,13 +16,13 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ManagementSystem
  */
-public class ManagementSystem extends HttpServlet {
+public class HelloWorldServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Default constructor. 
 	 */
-	public ManagementSystem() {
+	public HelloWorldServlet() {
 		// TODO Auto-generated constructor stub
 	}
 
