@@ -4,10 +4,9 @@
 	<servlet>
 		<description>
 		</description>
-		<display-name>ManagementSystem</display-name>
-		<servlet-name>ManagementSystem</servlet-name>
-		<servlet-class>
-		usr.speedy.ds.ManagementSystem</servlet-class>
+		<display-name>HelloWorldServlet</display-name>
+		<servlet-name>HelloWorldServlet</servlet-name>
+		<servlet-class>usr.speedy.ds.HelloWorldServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
@@ -18,8 +17,8 @@
 		usr.speedy.ds.ManagerServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ManagementSystem</servlet-name>
-		<url-pattern>/ManagementSystem</url-pattern>
+		<servlet-name>HelloWorldServlet</servlet-name>
+		<url-pattern>/HelloWorldServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ManagerServlet</servlet-name>
