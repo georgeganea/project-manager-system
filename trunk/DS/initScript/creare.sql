@@ -20,6 +20,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `programmers`.`tasks` (
   `id` INT NOT NULL COMMENT '	' ,
+  `name` VARCHAR(45) NULL DEFAULT 'no-name' ,
   `status` VARCHAR(45) NULL DEFAULT NULL ,
   `nopeople` INT NULL DEFAULT NULL ,
   PRIMARY KEY (`id`) )

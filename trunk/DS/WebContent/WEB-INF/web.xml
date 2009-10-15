@@ -16,6 +16,44 @@
 		<servlet-class>
 		usr.speedy.ds.ManagerServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>TemplateServlet</display-name>
+		<servlet-name>TemplateServlet</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.TemplateServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>Tasks</display-name>
+		<servlet-name>Tasks</servlet-name>
+		<servlet-class>usr.speedy.ds.Tasks</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>Programmers</display-name>
+		<servlet-name>Programmers</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.Programmers</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>Overview</display-name>
+		<servlet-name>Overview</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.Overview</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>AddTask</display-name>
+		<servlet-name>AddTask</servlet-name>
+		<servlet-class>usr.speedy.ds.AddTask</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>HelloWorldServlet</servlet-name>
 		<url-pattern>/HelloWorldServlet</url-pattern>
@@ -23,6 +61,26 @@
 	<servlet-mapping>
 		<servlet-name>ManagerServlet</servlet-name>
 		<url-pattern>/ManagerServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>TemplateServlet</servlet-name>
+		<url-pattern>/TemplateServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Tasks</servlet-name>
+		<url-pattern>/Tasks</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Programmers</servlet-name>
+		<url-pattern>/Programmers</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Overview</servlet-name>
+		<url-pattern>/Overview</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddTask</servlet-name>
+		<url-pattern>/AddTask</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
