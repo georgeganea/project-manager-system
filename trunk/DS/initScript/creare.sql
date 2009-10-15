@@ -10,7 +10,7 @@ USE `programmers`;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `programmers`.`programmers` (
   `name` VARCHAR(45) NULL DEFAULT 'no-name' ,
-  `id` INT NOT NULL DEFAULT 0 ,
+  `id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
@@ -19,7 +19,7 @@ ENGINE = InnoDB;
 -- Table `programmers`.`tasks`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `programmers`.`tasks` (
-  `id` INT NOT NULL COMMENT '	' ,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL DEFAULT 'no-name' ,
   `status` VARCHAR(45) NULL DEFAULT NULL ,
   `nopeople` INT NULL DEFAULT NULL ,
@@ -31,7 +31,7 @@ ENGINE = InnoDB;
 -- Table `programmers`.`assingments`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `programmers`.`assingments` (
-  `assID` INT NULL DEFAULT NULL ,
+  `assID` INT NOT NULL AUTO_INCREMENT,
   `prgID` INT NULL DEFAULT NULL ,
   `tskID` INT NULL DEFAULT NULL ,
   INDEX `prFK` (`prgID` ASC) ,
@@ -45,7 +45,8 @@ CREATE  TABLE IF NOT EXISTS `programmers`.`assingments` (
     FOREIGN KEY (`tskID` )
     REFERENCES `programmers`.`tasks` (`id` )
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE,
+   PRIMARY KEY (`assID`))
 ENGINE = InnoDB;
 
 
