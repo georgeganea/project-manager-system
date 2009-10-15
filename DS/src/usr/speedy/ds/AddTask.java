@@ -3,6 +3,7 @@ package usr.speedy.ds;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -58,7 +59,7 @@ public class AddTask extends Tasks {
 			int noOfProg = Integer.parseInt(noOfProgrammers);
 			if (noOfProg <= 0)
 				message("Invalid number of programmers", request.getSession());
-			addToDataBase(taskName, noOfProg);
+			addToDataBase(taskName, noOfProg, request);
 			message("Task "+taskName+" succesfully added", request.getSession());
 		}
 		catch(NumberFormatException e){
@@ -68,8 +69,12 @@ public class AddTask extends Tasks {
 	}
 
 
-	private void addToDataBase(String taskName, int noOfProg) {
-		
+	private void addToDataBase(String taskName, int noOfProg, HttpServletRequest request) {
+		HttpSession session = request.getSession(true);
+		Connection connection = (Connection) session.getAttribute("connection");
+		if (connection != null){
+			//connection.createStatement("INSERT INTO programmers(name) VALUES ('"+taskName+"');")
+		}
 	}
 
 	private void message(String string, HttpSession session) {
