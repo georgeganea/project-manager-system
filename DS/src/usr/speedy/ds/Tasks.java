@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -19,12 +20,11 @@ public class Tasks extends TemplateServlet {
 		super();
 	}
 
-
-	protected void templateMethod(PrintWriter out, String contextPath) {
+	protected void templateMethod(PrintWriter out, HttpServletRequest request) {
 		try {
-			printFromFile(out, "tasks/top.html", contextPath);
-			printContent(out, contextPath);
-			printFromFile(out, "tasks/bottom.html", contextPath);
+			util.printFromFile(out, "tasks/top.html");
+			printContent(out, request);
+			util.printFromFile(out, "tasks/bottom.html");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -33,9 +33,9 @@ public class Tasks extends TemplateServlet {
 	}
 
 
-	protected void printContent(PrintWriter out, String contextPath) {
+	protected void printContent(PrintWriter out, HttpServletRequest request) {
 		try {
-			printFromFile(out, "tasks/content.html", contextPath);
+			util.printFromFile(out, "tasks/content.html");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
