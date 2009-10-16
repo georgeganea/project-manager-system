@@ -54,6 +54,14 @@
 		<servlet-name>AddTask</servlet-name>
 		<servlet-class>usr.speedy.ds.AddTask</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>CloseTask</display-name>
+		<servlet-name>CloseTask</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.CloseTask</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>HelloWorldServlet</servlet-name>
 		<url-pattern>/HelloWorldServlet</url-pattern>
@@ -81,6 +89,10 @@
 	<servlet-mapping>
 		<servlet-name>AddTask</servlet-name>
 		<url-pattern>/AddTask</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CloseTask</servlet-name>
+		<url-pattern>/CloseTask</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
