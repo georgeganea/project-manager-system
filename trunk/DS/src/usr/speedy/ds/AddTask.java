@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -73,6 +75,15 @@ public class AddTask extends Tasks {
 		HttpSession session = request.getSession(true);
 		Connection connection = (Connection) session.getAttribute("connection");
 		if (connection != null){
+			Statement stmt;
+			try {
+				stmt = connection.createStatement();
+				stmt.execute("INSERT INTO programmers(name) VALUES ('"+taskName+"')");
+				stmt.equals("COMMIT");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				message("Error inserting data", request.getSession());
+			}
 			//connection.createStatement("INSERT INTO programmers(name) VALUES ('"+taskName+"');")
 		}
 	}
