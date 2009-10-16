@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class Tasks extends TemplateServlet {
 
+	private static final long serialVersionUID = 3203929255918520000L;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -20,9 +22,10 @@ public class Tasks extends TemplateServlet {
 		super();
 	}
 
+	@Override
 	protected void templateMethod(PrintWriter out, HttpServletRequest request) {
 		try {
-			util.printFromFile(out, "tasks/top.html");
+			util.printFromFile(out, "tasks/top.html", "Tasks");
 			printContent(out, request);
 			util.printFromFile(out, "tasks/bottom.html");
 		} catch (FileNotFoundException e) {
@@ -41,5 +44,9 @@ public class Tasks extends TemplateServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	protected String getActivePage() {
+		return "Tasks";
 	}
 }

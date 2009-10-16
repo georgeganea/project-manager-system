@@ -16,5 +16,7 @@ public class Overview extends TemplateServlet {
     }
 
 	
-
+    protected String getActivePage() {
+		return "Overview";
+	}
 }
