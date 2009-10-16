@@ -49,9 +49,13 @@ public class TemplateServlet extends HttpServlet {
 		createDatabaseConnection(request);
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		util.printFromFile(out,"top.html");
+		util.printFromFile(out,"top.html", getActivePage());
 		templateMethod(out,request);
 		util.printFromFile(out,"bottom.html");
+	}
+
+	protected String getActivePage() {
+		return "None";
 	}
 
 	private void createDatabaseConnection(HttpServletRequest request) {

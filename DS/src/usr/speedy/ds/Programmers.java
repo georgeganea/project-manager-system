@@ -12,8 +12,9 @@ public class Programmers extends TemplateServlet {
      */
     public Programmers() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-
+    protected String getActivePage() {
+		return "Programmers";
+	}
 }

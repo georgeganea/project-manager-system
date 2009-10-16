@@ -40,4 +40,21 @@ public class Util {
 		}
 	}
 
+	public void printFromFile(PrintWriter out, String fileName, String currentPage) throws FileNotFoundException,IOException {
+		URL resource = this.getClass().getResource(fileName);
+		try {
+			FileReader reader = new FileReader(new File(resource.toURI()));
+			BufferedReader input =  new BufferedReader(reader);
+			String line;
+			while (( line = input.readLine()) != null){
+				String current = "title=\""+currentPage+"\"";
+				if (line.contains(current))
+					line = line.replace(current, " class=\"current\" "+current);
+				out.println(line);
+			}
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
