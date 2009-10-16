@@ -91,6 +91,13 @@ public class AddTask extends Tasks {
 					return false;
 				}
 				else{
+					ResultSet duplicateName = stmt.executeQuery("SELECT COUNT(*) AS duplCnt FROM tasks WHERE name='"+taskName+"'");
+					duplicateName.next();
+					int duplicate = duplicateName.getInt("duplCnt");
+					if (duplicate != 0){
+						message("Task name already exists", session);
+						return false;
+					}
 					ResultSet records = stmt.executeQuery("SELECT * FROM programmers WHERE status='available'");
 					int cnt = 0;
 					while(records.next()){
