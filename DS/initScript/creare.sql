@@ -11,6 +11,7 @@ USE `programmers`;
 CREATE  TABLE IF NOT EXISTS `programmers`.`programmers` (
   `name` VARCHAR(45) NULL DEFAULT 'no-name' ,
   `id` INT NOT NULL AUTO_INCREMENT,
+  `status` VARCHAR(45) NULL DEFAULT 'available' ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
