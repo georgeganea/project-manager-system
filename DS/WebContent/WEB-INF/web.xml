@@ -62,6 +62,22 @@
 		<servlet-class>
 		usr.speedy.ds.CloseTask</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ModifyTask</display-name>
+		<servlet-name>ModifyTask</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.ModifyTask</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ModifyFound</display-name>
+		<servlet-name>ModifyFound</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.ModifyFound</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>HelloWorldServlet</servlet-name>
 		<url-pattern>/HelloWorldServlet</url-pattern>
@@ -93,6 +109,14 @@
 	<servlet-mapping>
 		<servlet-name>CloseTask</servlet-name>
 		<url-pattern>/CloseTask</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ModifyTask</servlet-name>
+		<url-pattern>/Modify</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ModifyFound</servlet-name>
+		<url-pattern>/ModifyFound</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
