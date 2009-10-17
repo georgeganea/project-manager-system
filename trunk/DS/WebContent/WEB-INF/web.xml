@@ -78,6 +78,22 @@
 		<servlet-class>
 		usr.speedy.ds.ModifyFound</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>AddProgrammer</display-name>
+		<servlet-name>AddProgrammer</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.AddProgrammer</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>FireProgrammer</display-name>
+		<servlet-name>FireProgrammer</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.FireProgrammer</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>HelloWorldServlet</servlet-name>
 		<url-pattern>/HelloWorldServlet</url-pattern>
@@ -117,6 +133,14 @@
 	<servlet-mapping>
 		<servlet-name>ModifyFound</servlet-name>
 		<url-pattern>/ModifyFound</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddProgrammer</servlet-name>
+		<url-pattern>/AddProgrammer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FireProgrammer</servlet-name>
+		<url-pattern>/FireProgrammer</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
