@@ -31,13 +31,30 @@ public class ModifyTask extends Tasks {
 
 	protected void printContent(PrintWriter out, HttpServletRequest request) {
 		try {
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(true);
 			Integer modified = (Integer)session.getAttribute("modifyTaskid");
-			if (modified == null)
-				util.printFromFile(out, "tasks/modifyTaskFind.html");
-			else{
-				util.printFromFile(out, "tasks/modifyFoundTask.html");
+			System.out.println("mod "+modified);
+			String result = (String)session.getAttribute("modifyTaskMessage");
+			System.out.println("result "+result);
+			if (result != null) {
+				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", result);
+				session.setAttribute("modifyTaskMessage", null);
+				session.setAttribute("modifyTaskid", null);
 			}
+			else
+				if (modified == null)
+					util.printFromFile(out, "tasks/modifyTaskFind.html");
+				else{
+					if (modified < 1){
+						util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", "task not found");
+						session.setAttribute("modifyTaskMessage", null);
+						session.setAttribute("modifyTaskid", null);
+					}
+					else{
+						util.printFromFile(out, "tasks/modifyFoundTask.html");
+						session.setAttribute("modifyTaskMessage", null);
+					}
+				}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -46,18 +63,16 @@ public class ModifyTask extends Tasks {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("do post");
 		HttpSession session = request.getSession();
 		String taskName = request.getParameter("taskname");
 		if (taskName == null || taskName.trim().equals("")){
 			message("Task name cannot be empty", request.getSession());
 		}
 		int taskID = findTask(taskName, request);
+		//if (taskID < 1) message("task not found", request.getSession());
 		session.setAttribute("modifyTaskid", taskID);
 		System.out.println("found task "+taskID);
-		//System.out.println("do get !");
 		doGet(request, response);
-
 	}
 
 	private int findTask(String taskName, HttpServletRequest request) {

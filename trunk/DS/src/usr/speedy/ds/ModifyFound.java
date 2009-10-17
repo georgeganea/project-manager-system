@@ -32,7 +32,7 @@ public class ModifyFound extends Tasks {
 		HttpSession session = request.getSession();
 		Integer modified = (Integer)session.getAttribute("modifyTaskid");
 		try {
-			util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", "modified task with id"+modified);
+			util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", "modified task with id "+modified);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
