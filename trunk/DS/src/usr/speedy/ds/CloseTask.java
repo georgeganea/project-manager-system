@@ -95,6 +95,7 @@ public class CloseTask extends Tasks {
 						stmt.execute("DELETE FROM assingments WHERE assID = "+assign);
 					}
 				}
+				connection.commit();
 				return true;
 			}
 			catch (Exception e) {

@@ -93,6 +93,7 @@ public class FireProgrammer extends Programmers {
 		    	    	stmt.execute("Delete from programmers where name='"+progName+"'");
 		    	    	message("Programmer successfully fired",session);
 		    	    }
+		    	    conn.commit();
 		    	}
 				catch (Exception e) {
 					try {

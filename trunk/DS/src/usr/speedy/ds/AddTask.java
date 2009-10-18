@@ -117,6 +117,7 @@ public class AddTask extends Tasks {
 					for (String string : allNames) {
 						stmt.execute("INSERT INTO assingments(prgID, tskID) VALUES ("+string+","+lastInserted+")");
 					}
+					connection.commit();
 					return true;
 				}
 			}
