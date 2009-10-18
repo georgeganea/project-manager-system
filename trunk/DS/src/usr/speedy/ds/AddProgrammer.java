@@ -19,18 +19,18 @@ import javax.servlet.http.HttpSession;
  */
 public class AddProgrammer extends Programmers {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see Programmers#Programmers()
-     */
-    public AddProgrammer() {
-        super();
-    }
+
+	/**
+	 * @see Programmers#Programmers()
+	 */
+	public AddProgrammer() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -51,7 +51,7 @@ public class AddProgrammer extends Programmers {
 	}
 
 	private boolean addToDataBase(String progName, HttpServletRequest request) {
-	
+
 		HttpSession session = request.getSession(true);
 		Connection connection = (Connection) session.getAttribute("connection");
 		if (connection != null){
@@ -65,18 +65,24 @@ public class AddProgrammer extends Programmers {
 					message("Programmer name already exists", session);
 					return false;
 				}
-					
+
 				stmt.execute("INSERT INTO programmers(name)VALUES ('"+progName+"')");
+				connection.commit();
 				return true;
+			}
+			catch (Exception e) {
+				try {
+					connection.rollback();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					message("Error inserting data", session);
 				}
-			 catch (SQLException e) {
 				e.printStackTrace();
-				message("Error inserting data", session);
 			}
 		}
 		else
 			message("Connection expired", session);
-	
+
 		return false;
 	}
 
