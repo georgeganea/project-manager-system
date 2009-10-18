@@ -39,7 +39,6 @@ public class CloseTask extends Tasks {
 				session.setAttribute("closeTaskMessage", null);
 			}
 			else {
-				System.out.println(">>>>"+result);
 				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", result);
 				session.setAttribute("closeTaskMessage", null);
 			}
@@ -98,9 +97,14 @@ public class CloseTask extends Tasks {
 				}
 				return true;
 			}
-			catch (SQLException e) {
+			catch (Exception e) {
+				try {
+					connection.rollback();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					message("Error inserting data", session);
+				}
 				e.printStackTrace();
-				message("Error inserting data", session);
 			}
 		}
 		return false;

@@ -35,6 +35,7 @@ public class TemplateServlet extends HttpServlet {
 
 			String url = "jdbc:mysql://localhost:3306/programmers";
 			connection = DriverManager.getConnection(url,"speedy", "speedy");
+			connection.setAutoCommit(false);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
