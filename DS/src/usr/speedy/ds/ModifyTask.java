@@ -99,6 +99,7 @@ public class ModifyTask extends Tasks {
 					}
 
 				}
+				connection.commit();
 				return -3;
 			}
 			catch (SQLException e) {
