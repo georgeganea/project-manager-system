@@ -20,15 +20,15 @@ import java.sql.Statement;
  */
 public class FireProgrammer extends Programmers {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see Programmers#Programmers()
+     */
+    public FireProgrammer() {
+        super();
+    }
 
-	/**
-	 * @see Programmers#Programmers()
-	 */
-	public FireProgrammer() {
-		super();
-	}
-
-	protected void printContent(PrintWriter out, HttpServletRequest request) {
+    protected void printContent(PrintWriter out, HttpServletRequest request) {
 		try {
 			HttpSession session = request.getSession(true);
 			String result = (String)session.getAttribute("fireProgrammerMessage");
@@ -47,7 +47,7 @@ public class FireProgrammer extends Programmers {
 		}
 	}
 
-
+    
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -68,37 +68,45 @@ public class FireProgrammer extends Programmers {
 	}
 
 	private boolean deleteFromDataBase(String progName,HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-		Connection conn = (Connection)session.getAttribute("connection");
-
-		if (conn != null)
-		{
-			try{
-				Statement stmt = conn.createStatement();
-				ResultSet duplicateName = stmt.executeQuery("Select count(*) as exista from programmers where name='"+progName+"'");
-				duplicateName.next();
-				int exista = duplicateName.getInt("exista");
-				if( exista == 0)
-					message("No programmer with this name",session);
-				else
-				{
-					stmt.execute("Delete from programmers where name='"+progName+"'");
-					message("Programmer successfully fired",session);
+			HttpSession session = request.getSession(true);
+		    Connection conn = (Connection)session.getAttribute("connection");
+		    
+		    if (conn != null)
+		    {
+		    	try{
+		    		Statement stmt = conn.createStatement();
+		    	    ResultSet duplicateName = stmt.executeQuery("Select count(*) as exista from programmers where name='"+progName+"'");
+		    	    duplicateName.next();
+		    	    int exista = duplicateName.getInt("exista");
+		    	    if( exista == 0)
+		    	    	message("No programmer with this name",session);
+		    	    else
+		    	    {
+		    	    	ResultSet busyProg = stmt.executeQuery("Select id as prgid, status as prgstatus from programmers where name='"+progName+"'");
+		    	    	busyProg.next();
+		    	    	String status = busyProg.getString("prgstatus");
+		    	    	if (status.contains("busy"))
+		    	    	{
+		    	    		int prgid = busyProg.getInt("prgid");
+		    	    		stmt.execute("Update tasks set nopeople = nopeople-1 where id = (Select tskID from assingments where prgID='" + prgid +"' )");
+		    	    	}
+		    	    	stmt.execute("Delete from programmers where name='"+progName+"'");
+		    	    	message("Programmer successfully fired",session);
+		    	    }
+		    	}
+				catch (Exception e) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+						message("Error inserting data", session);
+					}
+					e.printStackTrace();
 				}
 			}
-			catch (Exception e) {
-				try {
-					conn.rollback();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-					message("Error inserting data", session);
-				}
-				e.printStackTrace();
-			}
-		}
-		else
-			message("connection expired",session);
-
+		    else
+		    	message("connection expired",session);
+		
 		return false;
 	}
 
