@@ -87,7 +87,7 @@ public class ModifyTask extends Tasks {
 				int exists = duplicateName.getInt("exista");
 				if (exists != 1){
 					if (exists == 0)
-						message("Task name does not exist or is closed", request.getSession());
+						message("Task "+taskName+" does not exist or is closed", request.getSession());
 					else
 						message("The database is malformed: duplicate task names", request.getSession());
 					return -2;

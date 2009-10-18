@@ -4,8 +4,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +27,6 @@ public class ModifyFound extends Tasks {
 	 */
 	public ModifyFound() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -70,13 +72,48 @@ public class ModifyFound extends Tasks {
 	}
 
 	private boolean addToDataBase(int id,String taskName, int noOfProg,	HttpServletRequest request) {
+		List<String> allNames = new ArrayList<String>();
 		HttpSession session = request.getSession(true);
 		Connection connection = (Connection) session.getAttribute("connection");
 		Statement stmt;
 		try {
 			stmt = connection.createStatement();
-			System.out.println("UPDATE tasks SET name='"+taskName+"', noPeople="+noOfProg+" WHERE id="+id+";");
+			ResultSet noPCnt = stmt.executeQuery("SELECT noPeople AS noP FROM tasks WHERE id="+id);
+			noPCnt.next();
+			int noP = noPCnt.getInt("noP");
+			if (noP < noOfProg){
+				//add some programmers
+				ResultSet recordCnt = stmt.executeQuery("SELECT COUNT(*) AS cnt FROM programmers WHERE status='available'");
+				recordCnt.next();
+				int count = recordCnt.getInt("cnt");
+				int toAdd = noOfProg - noP;
+				if (count >= toAdd){
+					int cnt = 0;
+					ResultSet records = stmt.executeQuery("SELECT * FROM programmers WHERE status='available'");
+					while(records.next()){
+						String str = records.getString("id");
+						allNames.add(str);
+						cnt++;
+						if (cnt == toAdd)
+							break;
+					}//end while loop
+					for (String name : allNames) {
+						stmt.execute("UPDATE programmers SET status='busy' WHERE id="+name);
+					}
+					for (String string : allNames) {
+						stmt.execute("INSERT INTO assingments(prgID, tskID) VALUES ("+string+","+id+")");
+					}
+					connection.commit();
+					
+				}
+				else
+					message("The requested number of programmers is not available", session);
+			}
+			else if (noP > noOfProg){
+				//remove some programmers
+			}
 			stmt.execute("UPDATE tasks SET name='"+taskName+"', noPeople="+noOfProg+" WHERE id="+id+";");
+			connection.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
