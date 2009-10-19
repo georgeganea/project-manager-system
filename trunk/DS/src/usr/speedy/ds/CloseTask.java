@@ -3,9 +3,7 @@ package usr.speedy.ds;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class CloseTask
@@ -32,15 +29,14 @@ public class CloseTask extends Tasks {
 
 	protected void printContent(PrintWriter out, HttpServletRequest request) {
 		try {
-			HttpSession session = request.getSession(true);
-			String result = (String)session.getAttribute("closeTaskMessage");
+			String result = (String)request.getAttribute("closeTaskMessage");
 			if (result == null){
 				util.printFromFile(out, "tasks/closeTask.html");
-				session.setAttribute("closeTaskMessage", null);
+				request.setAttribute("closeTaskMessage", null);
 			}
 			else {
 				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", result);
-				session.setAttribute("closeTaskMessage", null);
+				request.setAttribute("closeTaskMessage", null);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -55,16 +51,14 @@ public class CloseTask extends Tasks {
 
 		String taskName = request.getParameter("taskname");
 		if (taskName == null || taskName.trim().equals("")){
-			message("Task name cannot be empty", request.getSession());
+			message("Task name cannot be empty", request);
 		}
 		if (closeTask(taskName, request))
-			message("Task was closed successfully", request.getSession());
+			message("Task was closed successfully", request);
 		doGet(request, response);
 	}
 
 	private boolean closeTask(String taskName, HttpServletRequest request){
-		HttpSession session = request.getSession(true);
-		Connection connection = (Connection) session.getAttribute("connection");
 		if (connection != null){
 			Statement stmt;
 			try {
@@ -74,9 +68,9 @@ public class CloseTask extends Tasks {
 				int exists = duplicateName.getInt("exista");
 				if (exists != 1){
 					if (exists == 0)
-						message("Task name does not exist or is closed", request.getSession());
+						message("Task name does not exist or is closed", request);
 					else
-						message("The database is malformed: duplicate task names", request.getSession());
+						message("The database is malformed: duplicate task names", request);
 					return false;
 				}
 				else{
@@ -98,14 +92,14 @@ public class CloseTask extends Tasks {
 				return true;
 			}
 			catch (Exception e) {
-				message("Error inserting data", session);
+				message("Error inserting data", request);
 				e.printStackTrace();
 			}
 		}
 		return false;
 	}
 
-	private void message(String string, HttpSession session) {
-		session.setAttribute("closeTaskMessage", string);
+	private void message(String string, HttpServletRequest request) {
+		request.setAttribute("closeTaskMessage", string);
 	}
 }

@@ -3,7 +3,6 @@ package usr.speedy.ds;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -31,13 +30,12 @@ public class ModifyFound extends Tasks {
 
 	@Override
 	protected void printContent(PrintWriter out, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		Integer modified = (Integer)session.getAttribute("modifyTaskid");
+		Integer modified = (Integer)request.getAttribute("modifyTaskid");
 		try {
-			String result = (String)session.getAttribute("modifyTaskFoundMessage");
+			String result = (String)request.getAttribute("modifyTaskFoundMessage");
 			if (result != null){
 				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage",result);
-				session.setAttribute("modifyTaskFoundMessage", null);
+				request.setAttribute("modifyTaskFoundMessage", null);
 			}
 			else 
 				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", "modified task with id "+modified);
@@ -46,9 +44,9 @@ public class ModifyFound extends Tasks {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		session.setAttribute("modifyTaskMessage", null);
-		session.setAttribute("modifyTaskid", null);
-		session.setAttribute("modifyTaskFoundMessage", null);
+		request.setAttribute("modifyTaskMessage", null);
+		request.setAttribute("modifyTaskid", null);
+		request.setAttribute("modifyTaskFoundMessage", null);
 	}
 
 	/**
@@ -58,30 +56,28 @@ public class ModifyFound extends Tasks {
 		HttpSession session = request.getSession(true);
 		String taskName = request.getParameter("taskname");
 		if (taskName == null || taskName.trim().equals("")){
-			message("Task name cannot be empty", request.getSession());
+			message("Task name cannot be empty", request);
 		}
 		String noOfProgrammers = request.getParameter("noProg");
 		if (noOfProgrammers == null || noOfProgrammers.trim().equals("")){
-			message("Number of programmers cannot be empty", request.getSession());
+			message("Number of programmers cannot be empty", request);
 		}
 		try{
 			int noOfProg = Integer.parseInt(noOfProgrammers);
 			if (noOfProg <= 0)
-				message("Invalid number of programmers", request.getSession());
+				message("Invalid number of programmers", request);
 			boolean result = addToDataBase((Integer)session.getAttribute("modifyTaskid"),taskName, noOfProg, request);
 			if (result)
-				message("Task "+taskName+" succesfully added", request.getSession());
+				message("Task "+taskName+" succesfully added", request);
 		}
 		catch(NumberFormatException e){
-			message("Invalid number format", request.getSession());
+			message("Invalid number format", request);
 		}
 		doGet(request, response);
 	}
 
 	private boolean addToDataBase(int id,String taskName, int noOfProg,	HttpServletRequest request) {
 		List<String> allNames = new ArrayList<String>();
-		HttpSession session = request.getSession(true);
-		Connection connection = (Connection) session.getAttribute("connection");
 		Statement stmt;
 		try {
 			stmt = connection.createStatement();
@@ -111,10 +107,10 @@ public class ModifyFound extends Tasks {
 					for (String string : allNames) {
 						stmt.execute("INSERT INTO assingments(prgID, tskID) VALUES ("+string+","+id+")");
 					}
-					connection.commit();
+				//	connection.commit();
 				}
 				else
-					message("The requested number of programmers is not available", session);
+					message("The requested number of programmers is not available", request);
 			}
 			else if (noP > noOfProg){
 				stmt.execute("UPDATE tasks SET name='"+taskName+"', noPeople="+noOfProg+" WHERE id="+id+";");
@@ -138,7 +134,7 @@ public class ModifyFound extends Tasks {
 		}
 		return false;
 	}
-	private void message(String string, HttpSession session) {
-		session.setAttribute("modifyTaskFoundMessage", string);
+	private void message(String string, HttpServletRequest request) {
+		request.setAttribute("modifyTaskFoundMessage", string);
 	}
 }

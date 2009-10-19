@@ -59,21 +59,18 @@ public class ModifyTask extends Tasks {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
 		String taskName = request.getParameter("taskname");
 		if (taskName == null || taskName.trim().equals("")){
-			message("Task name cannot be empty", request.getSession());
+			message("Task name cannot be empty", request);
 		}
 		int taskID = findTask(taskName, request);
 		//if (taskID < 1) message("task not found", request.getSession());
-		session.setAttribute("modifyTaskid", taskID);
+		request.setAttribute("modifyTaskid", taskID);
 		System.out.println("found task "+taskID);
 		doGet(request, response);
 	}
 
 	private int findTask(String taskName, HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-		Connection connection = (Connection) session.getAttribute("connection");
 		if (connection != null){
 			Statement stmt;
 			try {
@@ -83,9 +80,9 @@ public class ModifyTask extends Tasks {
 				int exists = duplicateName.getInt("exista");
 				if (exists != 1){
 					if (exists == 0)
-						message("Task "+taskName+" does not exist or is closed", request.getSession());
+						message("Task "+taskName+" does not exist or is closed", request);
 					else
-						message("The database is malformed: duplicate task names", request.getSession());
+						message("The database is malformed: duplicate task names", request);
 					return -2;
 				}
 				else{
@@ -98,7 +95,7 @@ public class ModifyTask extends Tasks {
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
-				message("Error inserting data", session);
+				message("Error inserting data", request);
 			}
 		}
 		return -4;
@@ -108,8 +105,8 @@ public class ModifyTask extends Tasks {
 
 
 
-	private void message(String string, HttpSession session) {
-		session.setAttribute("modifyTaskMessage", string);
+	private void message(String string, HttpServletRequest request) {
+		request.setAttribute("modifyTaskMessage", string);
 	}
 }
 
