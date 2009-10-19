@@ -52,7 +52,6 @@ public class AddProgrammer extends Programmers {
 
 	private boolean addToDataBase(String progName, HttpServletRequest request) {
 
-		HttpServletRequest session = request;
 		if (connection != null){
 			Statement stmt;
 			try {
@@ -61,7 +60,7 @@ public class AddProgrammer extends Programmers {
 				duplicateName.next();
 				int duplicate = duplicateName.getInt("duplCnt");
 				if (duplicate != 0){
-					message("Programmer name already exists", session);
+					message("Programmer name already exists", request);
 					return false;
 				}
 
@@ -70,12 +69,12 @@ public class AddProgrammer extends Programmers {
 				return true;
 			}
 			catch (Exception e) {
-				message("Error inserting data", session);
+				message("Error inserting data", request);
 				e.printStackTrace();
 			}
 		}
 		else
-			message("Connection expired", session);
+			message("Connection expired", request);
 
 		return false;
 	}
