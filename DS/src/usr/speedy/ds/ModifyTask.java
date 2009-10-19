@@ -73,7 +73,6 @@ public class ModifyTask extends Tasks {
 		int taskID = findTask(taskName, request);
 		//if (taskID < 1) message("task not found", request.getSession());
 		request.setAttribute("modifyTaskid", taskID);
-		System.out.println("found task "+taskID);
 		doGet(request, response);
 	}
 
