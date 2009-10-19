@@ -34,7 +34,13 @@ public class ModifyFound extends Tasks {
 		HttpSession session = request.getSession();
 		Integer modified = (Integer)session.getAttribute("modifyTaskid");
 		try {
-			util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", "modified task with id "+modified);
+			String result = (String)session.getAttribute("modifyTaskFoundMessage");
+			if (result != null){
+				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage",result);
+				session.setAttribute("modifyTaskFoundMessage", null);
+			}
+			else 
+				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", "modified task with id "+modified);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -42,6 +48,7 @@ public class ModifyFound extends Tasks {
 		}
 		session.setAttribute("modifyTaskMessage", null);
 		session.setAttribute("modifyTaskid", null);
+		session.setAttribute("modifyTaskFoundMessage", null);
 	}
 
 	/**
@@ -88,6 +95,7 @@ public class ModifyFound extends Tasks {
 				int count = recordCnt.getInt("cnt");
 				int toAdd = noOfProg - noP;
 				if (count >= toAdd){
+					stmt.execute("UPDATE tasks SET name='"+taskName+"', noPeople="+noOfProg+" WHERE id="+id+";");
 					int cnt = 0;
 					ResultSet records = stmt.executeQuery("SELECT * FROM programmers WHERE status='available'");
 					while(records.next()){
@@ -104,24 +112,34 @@ public class ModifyFound extends Tasks {
 						stmt.execute("INSERT INTO assingments(prgID, tskID) VALUES ("+string+","+id+")");
 					}
 					connection.commit();
-					
 				}
 				else
 					message("The requested number of programmers is not available", session);
 			}
 			else if (noP > noOfProg){
-				//remove some programmers
+				stmt.execute("UPDATE tasks SET name='"+taskName+"', noPeople="+noOfProg+" WHERE id="+id+";");
+				int i  = noP - noOfProg;
+				ResultSet records = stmt.executeQuery("SELECT * FROM assingments WHERE tskID="+id+" limit "+i+";");
+				while(records.next()){
+					String str = records.getString("prgID");
+					allNames.add(str);
+				}
+				for (String idName : allNames) {
+					stmt.execute("UPDATE programmers SET status='available' WHERE id="+idName);
+					stmt.execute("DELETE from assingments where prgID="+idName+";");
+				}
 			}
-			stmt.execute("UPDATE tasks SET name='"+taskName+"', noPeople="+noOfProg+" WHERE id="+id+";");
+			else
+				if (noP == noOfProg){
+					stmt.execute("UPDATE tasks SET name='"+taskName+"', noPeople="+noOfProg+" WHERE id="+id+";");
+				}
 			connection.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-
 	private void message(String string, HttpSession session) {
-		session.setAttribute("modifyTaskMessage", string);
+		session.setAttribute("modifyTaskFoundMessage", string);
 	}
-
 }
