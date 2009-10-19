@@ -70,7 +70,7 @@ public class TemplateServlet extends HttpServlet {
 		out.println("<div id=\"container\">");
 		out.println("<div id=\"page\">");
 		//out.println( "<p>really cool picture of green speedy gonzales</p>");
-		out.println("<p><img src=\"http://www.cartype.com/pics/362/small/speedy_gonzales.jpg\" alt=\"text de alternate\" align=\"middle\"/></p>");
+		out.println("<p><img src=\"Web/speedy_gonzales.jpg\" alt=\"text de alternate\" align=\"middle\"/></p>");
 	    out.println("</div></div>");
 	}
 
