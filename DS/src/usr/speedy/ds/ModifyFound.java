@@ -133,7 +133,6 @@ public class ModifyFound extends Tasks {
 				if (noP == noOfProg){
 					stmt.execute("UPDATE tasks SET name='"+taskName+"', noPeople="+noOfProg+" WHERE id="+id+";");
 				}
-			connection.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
