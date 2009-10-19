@@ -37,23 +37,22 @@ public class AddProgrammer extends Programmers {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String progName = request.getParameter("prgname");
 		if (progName == null || progName.trim().equals("")){
-			message("Please insert Programmer name. It cannot be empty", request.getSession());
+			message("Please insert Programmer name. It cannot be empty", request);
 		}
 		try{
 			boolean result = addToDataBase(progName,request);
 			if (result)
-				message("Programmer "+progName+" succesfully added", request.getSession());
+				message("Programmer "+progName+" succesfully added", request);
 		}
 		catch(NumberFormatException e){
-			message("Invalid number format", request.getSession());
+			message("Invalid number format", request);
 		}
 		doGet(request, response);
 	}
 
 	private boolean addToDataBase(String progName, HttpServletRequest request) {
 
-		HttpSession session = request.getSession(true);
-		Connection connection = (Connection) session.getAttribute("connection");
+		HttpServletRequest session = request;
 		if (connection != null){
 			Statement stmt;
 			try {
@@ -83,7 +82,7 @@ public class AddProgrammer extends Programmers {
 
 	protected void printContent(PrintWriter out, HttpServletRequest request) {
 		try {
-			HttpSession session = request.getSession(true);
+			HttpServletRequest session = request;
 			String result = (String)session.getAttribute("addProgrammerMessage");
 			if (result == null){
 				util.printFromFile(out, "programmers/addProgrammer.html");
@@ -100,7 +99,7 @@ public class AddProgrammer extends Programmers {
 		}
 	}
 
-	private void message(String string, HttpSession session) {
+	private void message(String string, HttpServletRequest session) {
 		session.setAttribute("addProgrammerMessage", string);
 	}
 

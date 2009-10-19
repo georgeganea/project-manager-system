@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 
 
@@ -33,15 +31,14 @@ public class AddTask extends Tasks {
 
 	protected void printContent(PrintWriter out, HttpServletRequest request) {
 		try {
-			HttpSession session = request.getSession(true);
-			String result = (String)session.getAttribute("addTaskMessage");
+			String result = (String)request.getAttribute("addTaskMessage");
 			if (result == null){
 				util.printFromFile(out, "tasks/addTask.html");
-				session.setAttribute("addTaskMessage", null);
+				request.setAttribute("addTaskMessage", null);
 			}
 			else {
 				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", result);
-				session.setAttribute("addTaskMessage", null);
+				request.setAttribute("addTaskMessage", null);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -54,22 +51,22 @@ public class AddTask extends Tasks {
 			HttpServletResponse response) throws ServletException, IOException {
 		String taskName = request.getParameter("taskname");
 		if (taskName == null || taskName.trim().equals("")){
-			message("Task name cannot be empty", request.getSession());
+			message("Task name cannot be empty", request);
 		}
 		String noOfProgrammers = request.getParameter("noProg");
 		if (noOfProgrammers == null || noOfProgrammers.trim().equals("")){
-			message("Number of programmers cannot be empty", request.getSession());
+			message("Number of programmers cannot be empty", request);
 		}
 		try{
 			int noOfProg = Integer.parseInt(noOfProgrammers);
 			if (noOfProg <= 0)
-				message("Invalid number of programmers", request.getSession());
+				message("Invalid number of programmers", request);
 			boolean result = addToDataBase(taskName, noOfProg, request);
 			if (result)
-				message("Task "+taskName+" succesfully added", request.getSession());
+				message("Task "+taskName+" succesfully added", request);
 		}
 		catch(NumberFormatException e){
-			message("Invalid number format", request.getSession());
+			message("Invalid number format", request);
 		}
 		doGet(request, response);
 	}
@@ -77,8 +74,7 @@ public class AddTask extends Tasks {
 
 	private boolean addToDataBase(String taskName, int noOfProg, HttpServletRequest request) {
 		List<String> allNames = new ArrayList<String>();
-		HttpSession session = request.getSession(true);
-		Connection connection = (Connection) session.getAttribute("connection");
+		Connection connection = (Connection) request.getAttribute("connection");
 		if (connection != null){
 			Statement stmt;
 			try {
@@ -87,7 +83,7 @@ public class AddTask extends Tasks {
 				recordCnt.next();
 				int count = recordCnt.getInt("cnt");
 				if (count < noOfProg){
-					message("The requested number of programmers is not available", session);
+					message("The requested number of programmers is not available", request);
 					return false;
 				}
 				else{
@@ -95,7 +91,7 @@ public class AddTask extends Tasks {
 					duplicateName.next();
 					int duplicate = duplicateName.getInt("duplCnt");
 					if (duplicate != 0){
-						message("Task name already exists", session);
+						message("Task name already exists", request);
 						return false;
 					}
 					ResultSet records = stmt.executeQuery("SELECT * FROM programmers WHERE status='available'");
@@ -121,15 +117,15 @@ public class AddTask extends Tasks {
 				}
 			}
 			catch (Exception e) {
-				message("Error inserting data", session);
+				message("Error inserting data", request);
 				e.printStackTrace();
 			}
 		}
 		return false;
 	}
 
-	private void message(String string, HttpSession session) {
-		session.setAttribute("addTaskMessage", string);
+	private void message(String string, HttpServletRequest request) {
+		request.setAttribute("addTaskMessage", string);
 	}
 
 }

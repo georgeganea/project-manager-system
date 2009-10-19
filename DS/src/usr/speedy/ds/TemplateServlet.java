@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 public class TemplateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected Util util = new Util();
-	private Connection connection;
+	protected Connection connection;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -35,7 +35,7 @@ public class TemplateServlet extends HttpServlet {
 
 			String url = "jdbc:mysql://localhost:3306/programmers";
 			connection = DriverManager.getConnection(url,"speedy", "speedy");
-			//connection.setAutoCommit(false);
+			connection.setAutoCommit(true);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

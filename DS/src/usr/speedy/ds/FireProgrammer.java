@@ -3,17 +3,14 @@ package usr.speedy.ds;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.mysql.jdbc.Connection;
-import java.sql.ResultSet;
-
-import java.sql.Statement;
 
 /**
  * Servlet implementation class FireProgrammer
@@ -54,27 +51,26 @@ public class FireProgrammer extends Programmers {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String progName = request.getParameter("prgname");
 		if (progName == null || progName.trim().equals("")){
-			message("Please insert Programmer name. It cannot be empty", request.getSession());
+			message("Please insert Programmer name. It cannot be empty", request);
 		}
 		try{
 			boolean result = deleteFromDataBase(progName,request);
 			if (result)
-				message("Programmer "+progName+" succesfully fired", request.getSession());
+				message("Programmer "+progName+" succesfully fired", request);
 		}
 		catch(NumberFormatException e){
-			message("Invalid number format", request.getSession());
+			message("Invalid number format", request);
 		}
 		doGet(request, response);
 	}
 
 	private boolean deleteFromDataBase(String progName,HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-		Connection conn = (Connection)session.getAttribute("connection");
+		HttpServletRequest session = request;
 
-		if (conn != null)
+		if (connection != null)
 		{
 			try{
-				Statement stmt = conn.createStatement();
+				Statement stmt = connection.createStatement();
 				ResultSet duplicateName = stmt.executeQuery("Select count(*) as exista from programmers where name='"+progName+"'");
 				duplicateName.next();
 				int exista = duplicateName.getInt("exista");
@@ -105,7 +101,7 @@ public class FireProgrammer extends Programmers {
 		return false;
 	}
 
-	private void message(String string, HttpSession session) {
+	private void message(String string, HttpServletRequest session) {
 		session.setAttribute("fireProgrammerMessage", string);
 	}
 
