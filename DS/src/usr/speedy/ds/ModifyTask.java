@@ -97,7 +97,6 @@ public class ModifyTask extends Tasks {
 					while(records.next()){
 						return Integer.parseInt(records.getString("id"));
 					}
-
 				}
 				connection.commit();
 				return -3;
