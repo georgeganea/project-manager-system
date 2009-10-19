@@ -46,8 +46,6 @@ public class Workload extends Overview {
   
 	private int getNoOfProgrammers(HttpServletRequest request) {
 		int count = 0;
-		HttpSession session = request.getSession(true);
-		Connection connection = (Connection) session.getAttribute("connection");
 		if (connection != null){
 			Statement stmt;
 			try {
@@ -59,7 +57,7 @@ public class Workload extends Overview {
 			}
 			 catch (SQLException e) {
 				e.printStackTrace();
-				message("Error getting data from the database", session);
+				message("Error getting data from the database", request);
 			}
 		}
 		return count;
@@ -67,8 +65,6 @@ public class Workload extends Overview {
 	
 	private int getNoOfAvailableProgrammers(HttpServletRequest request) {
 		int count = 0;
-		HttpSession session = request.getSession(true);
-		Connection connection = (Connection) session.getAttribute("connection");
 		if (connection != null){
 			Statement stmt;
 			try {
@@ -80,13 +76,13 @@ public class Workload extends Overview {
 			}
 			 catch (SQLException e) {
 				e.printStackTrace();
-				message("Error getting data from the database", session);
+				message("Error getting data from the database", request);
 			}
 		}
 		return count;
 	}
 
-	private void message(String string, HttpSession session) {
-		session.setAttribute("workloadMessage", string);
+	private void message(String string, HttpServletRequest request) {
+		request.setAttribute("workloadMessage", string);
 	}
 }

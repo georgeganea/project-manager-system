@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class TemplateServlet
@@ -20,6 +19,7 @@ public class TemplateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected Util util = new Util();
 	protected Connection connection;
+	private HttpServletResponse response;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -27,7 +27,11 @@ public class TemplateServlet extends HttpServlet {
 	public TemplateServlet() {
 		super();
 	}
-	
+
+	protected HttpServletResponse getResponse(){
+		return response;
+	}
+
 	public void init(ServletConfig config) throws ServletException{
 		super.init(config);
 		try {
@@ -43,11 +47,12 @@ public class TemplateServlet extends HttpServlet {
 		}
 	}
 
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		createDatabaseConnection(request);
+		this.response = response;
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		util.printFromFile(out,"top.html", getActivePage());
@@ -59,10 +64,7 @@ public class TemplateServlet extends HttpServlet {
 		return "None";
 	}
 
-	private void createDatabaseConnection(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-		session.setAttribute("connection", connection);
-	}
+
 
 	protected void templateMethod(PrintWriter out, HttpServletRequest request) {
 		out.println( "really cool picture of green speedy gonzales");

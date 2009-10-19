@@ -27,15 +27,14 @@ public class FireProgrammer extends Programmers {
 
 	protected void printContent(PrintWriter out, HttpServletRequest request) {
 		try {
-			HttpSession session = request.getSession(true);
-			String result = (String)session.getAttribute("fireProgrammerMessage");
+			String result = (String)request.getAttribute("fireProgrammerMessage");
 			if (result == null){
 				util.printFromFile(out, "programmers/fireProgrammer.html");
-				session.setAttribute("fireProgrammerMessage", null);
+				request.setAttribute("fireProgrammerMessage", null);
 			}
 			else {
 				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", result);
-				session.setAttribute("fireProgrammerMessage", null);
+				request.setAttribute("fireProgrammerMessage", null);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
