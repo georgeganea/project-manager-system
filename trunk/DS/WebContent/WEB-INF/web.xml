@@ -94,6 +94,30 @@
 		<servlet-class>
 		usr.speedy.ds.FireProgrammer</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>CurrentTasks</display-name>
+		<servlet-name>CurrentTasks</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.CurrentTasks</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>AvailableProgrammers</display-name>
+		<servlet-name>AvailableProgrammers</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.AvailableProgrammers</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>Workload</display-name>
+		<servlet-name>Workload</servlet-name>
+		<servlet-class>
+		usr.speedy.ds.Workload</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>HelloWorldServlet</servlet-name>
 		<url-pattern>/HelloWorldServlet</url-pattern>
@@ -141,6 +165,18 @@
 	<servlet-mapping>
 		<servlet-name>FireProgrammer</servlet-name>
 		<url-pattern>/FireProgrammer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CurrentTasks</servlet-name>
+		<url-pattern>/CurrentTasks</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AvailableProgrammers</servlet-name>
+		<url-pattern>/AvailableProgrammers</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Workload</servlet-name>
+		<url-pattern>/Workload</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
