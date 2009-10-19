@@ -7,8 +7,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,9 +31,7 @@ public class ModifyTask extends Tasks {
 		try {
 			HttpSession session = request.getSession(true);
 			Integer modified = (Integer)session.getAttribute("modifyTaskid");
-			System.out.println("mod "+modified);
 			String result = (String)session.getAttribute("modifyTaskMessage");
-			System.out.println("result "+result);
 			if (result != null) {
 				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", result);
 				session.setAttribute("modifyTaskMessage", null);
@@ -98,7 +94,6 @@ public class ModifyTask extends Tasks {
 						return Integer.parseInt(records.getString("id"));
 					}
 				}
-				connection.commit();
 				return -3;
 			}
 			catch (SQLException e) {

@@ -67,16 +67,11 @@ public class AddProgrammer extends Programmers {
 				}
 
 				stmt.execute("INSERT INTO programmers(name)VALUES ('"+progName+"')");
-				connection.commit();
+				//connection.commit();
 				return true;
 			}
 			catch (Exception e) {
-				try {
-					connection.rollback();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-					message("Error inserting data", session);
-				}
+				message("Error inserting data", session);
 				e.printStackTrace();
 			}
 		}

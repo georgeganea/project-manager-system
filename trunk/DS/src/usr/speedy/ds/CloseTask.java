@@ -95,16 +95,10 @@ public class CloseTask extends Tasks {
 						stmt.execute("DELETE FROM assingments WHERE assID = "+assign);
 					}
 				}
-				connection.commit();
 				return true;
 			}
 			catch (Exception e) {
-				try {
-					connection.rollback();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-					message("Error inserting data", session);
-				}
+				message("Error inserting data", session);
 				e.printStackTrace();
 			}
 		}

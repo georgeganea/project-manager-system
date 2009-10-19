@@ -28,6 +28,7 @@ public class Workload extends Overview {
     	try {
     		int cnt1,cnt2;
     		String message;
+    		
     		cnt1 = getNoOfProgrammers(request);
     		cnt2 = getNoOfAvailableProgrammers(request);
     		if (cnt1!=0)

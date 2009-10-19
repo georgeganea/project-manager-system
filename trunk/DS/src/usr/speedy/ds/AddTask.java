@@ -117,17 +117,11 @@ public class AddTask extends Tasks {
 					for (String string : allNames) {
 						stmt.execute("INSERT INTO assingments(prgID, tskID) VALUES ("+string+","+lastInserted+")");
 					}
-					connection.commit();
 					return true;
 				}
 			}
 			catch (Exception e) {
-				try {
-					connection.rollback();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-					message("Error inserting data", session);
-				}
+				message("Error inserting data", session);
 				e.printStackTrace();
 			}
 		}
