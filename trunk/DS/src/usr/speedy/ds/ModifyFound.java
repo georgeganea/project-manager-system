@@ -13,13 +13,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class ModifyFound
  */
 public class ModifyFound extends Tasks {
 	private static final long serialVersionUID = 1L;
+	private Integer modified;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -30,8 +30,16 @@ public class ModifyFound extends Tasks {
 
 	@Override
 	protected void printContent(PrintWriter out, HttpServletRequest request) {
-		Integer modified = (Integer)request.getAttribute("modifyTaskid");
+		modified = (Integer)request.getAttribute("modifyTaskid");
+		
 		try {
+			if (request.getAttribute("doget") != null){
+			util.printFromFile(out, "tasks/modifyFoundTask.html");
+			request.setAttribute("modifyTaskMessage", null);
+			request.setAttribute("doget", null);
+			return;
+			}
+			
 			String result = (String)request.getAttribute("modifyTaskFoundMessage");
 			if (result != null){
 				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage",result);
@@ -45,7 +53,7 @@ public class ModifyFound extends Tasks {
 			e.printStackTrace();
 		}
 		request.setAttribute("modifyTaskMessage", null);
-		request.setAttribute("modifyTaskid", null);
+		//request.setAttribute("modifyTaskid", null);
 		request.setAttribute("modifyTaskFoundMessage", null);
 	}
 
@@ -53,7 +61,13 @@ public class ModifyFound extends Tasks {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(true);
+		if (request.getAttribute("doget") != null){
+			doGet(request, response);
+			//request.setAttribute("doget", null);
+			return;
+		}
+		
+
 		String taskName = request.getParameter("taskname");
 		if (taskName == null || taskName.trim().equals("")){
 			message("Task name cannot be empty", request);
@@ -66,13 +80,12 @@ public class ModifyFound extends Tasks {
 			int noOfProg = Integer.parseInt(noOfProgrammers);
 			if (noOfProg <= 0)
 				message("Invalid number of programmers", request);
-			boolean result = addToDataBase((Integer)session.getAttribute("modifyTaskid"),taskName, noOfProg, request);
-			if (result)
-				message("Task "+taskName+" succesfully added", request);
+			    addToDataBase(modified,taskName, noOfProg, request);
 		}
 		catch(NumberFormatException e){
 			message("Invalid number format", request);
 		}
+		request.setAttribute("modifyTaskid", this.modified);
 		doGet(request, response);
 	}
 
@@ -107,7 +120,7 @@ public class ModifyFound extends Tasks {
 					for (String string : allNames) {
 						stmt.execute("INSERT INTO assingments(prgID, tskID) VALUES ("+string+","+id+")");
 					}
-				//	connection.commit();
+					//	connection.commit();
 				}
 				else
 					message("The requested number of programmers is not available", request);
@@ -132,6 +145,7 @@ public class ModifyFound extends Tasks {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		//request.setAttribute("modifyTaskid", null);
 		return false;
 	}
 	private void message(String string, HttpServletRequest request) {

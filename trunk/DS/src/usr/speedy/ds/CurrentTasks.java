@@ -51,8 +51,6 @@ public class CurrentTasks extends Overview {
     
     private ArrayList<String> getListOfTasks(HttpServletRequest request) {
     	ArrayList<String> result = new ArrayList<String>();
-		HttpSession session = request.getSession(true);
-		Connection connection = (Connection) session.getAttribute("connection");
 		if (connection != null){
 			Statement stmt;
 			try {

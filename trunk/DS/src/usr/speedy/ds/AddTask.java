@@ -74,7 +74,6 @@ public class AddTask extends Tasks {
 
 	private boolean addToDataBase(String taskName, int noOfProg, HttpServletRequest request) {
 		List<String> allNames = new ArrayList<String>();
-		Connection connection = (Connection) request.getAttribute("connection");
 		if (connection != null){
 			Statement stmt;
 			try {

@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,13 +30,12 @@ public class ModifyTask extends Tasks {
 
 	protected void printContent(PrintWriter out, HttpServletRequest request) {
 		try {
-			HttpSession session = request.getSession(true);
-			Integer modified = (Integer)session.getAttribute("modifyTaskid");
-			String result = (String)session.getAttribute("modifyTaskMessage");
+			Integer modified = (Integer)request.getAttribute("modifyTaskid");
+			String result = (String)request.getAttribute("modifyTaskMessage");
 			if (result != null) {
 				util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", result);
-				session.setAttribute("modifyTaskMessage", null);
-				session.setAttribute("modifyTaskid", null);
+				request.setAttribute("modifyTaskMessage", null);
+				request.setAttribute("modifyTaskid", null);
 			}
 			else
 				if (modified == null)
@@ -43,12 +43,19 @@ public class ModifyTask extends Tasks {
 				else{
 					if (modified < 1){
 						util.printReplacedText(out, "tasks/printMessage.html", "templateMessage", "task not found");
-						session.setAttribute("modifyTaskMessage", null);
-						session.setAttribute("modifyTaskid", null);
+						request.setAttribute("modifyTaskMessage", null);
+						request.setAttribute("modifyTaskid", null);
 					}
 					else{
-						util.printFromFile(out, "tasks/modifyFoundTask.html");
-						session.setAttribute("modifyTaskMessage", null);
+						RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ModifyFound");
+						try {
+							request.setAttribute("doget", "doget");
+							dispatcher.forward(request, getResponse());
+						} catch (ServletException e) {
+							e.printStackTrace();
+						}
+						//util.printFromFile(out, "tasks/modifyFoundTask.html");
+						request.setAttribute("modifyTaskMessage", null);
 					}
 				}
 		} catch (FileNotFoundException e) {
