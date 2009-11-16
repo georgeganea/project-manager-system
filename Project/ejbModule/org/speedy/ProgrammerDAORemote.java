@@ -5,5 +5,5 @@ import javax.ejb.Remote;
 public interface ProgrammerDAORemote {
 
 	public void doSmth();
-	public void insert(Programmer programmer);
+	public boolean insert(Programmer programmer);
 }

@@ -17,12 +17,12 @@ public class ProgrammerSession implements ProgrammerSessionLocal , ProgrammerSes
 	@EJB
 	private ProgrammerDAORemote programmer;
 
-	public void doSmth() {
+	public boolean addProgrammer(String name) {
 		Programmer prog  = new Programmer();
-		prog.setName("booyakasha");
-		prog.setStatus("busy");
-		programmer.insert(prog);
-		System.out.println("cucotz");
+		prog.setName(name);
+		prog.setStatus("available");
+		return programmer.insert(prog);
+		
 	}
 
 

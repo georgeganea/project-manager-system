@@ -4,5 +4,5 @@ import javax.ejb.Remote;
 @Remote
 public interface ProgrammerSessionRemote {
 
-	public void doSmth();
+	public boolean addProgrammer(String name);
 }
