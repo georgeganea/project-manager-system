@@ -53,5 +53,13 @@ public class AssignmentDAO implements AssignmentDAORemote {
 			return null;
 		}
 	}
+	
+	public List<Task> getOpenTasks(){
+		return (List<Task>) em.createQuery("select t from "+Task.class.getName()+" t where status = 'open'").getResultList();
+	}
+
+	public List<Task> getClosedTasks(){
+		return (List<Task>) em.createQuery("select t from "+Task.class.getName()+" t where status = 'closed'").getResultList();
+	}
 
 }

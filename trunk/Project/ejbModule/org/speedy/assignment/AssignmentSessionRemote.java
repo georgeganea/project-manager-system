@@ -6,7 +6,7 @@ import javax.ejb.Remote;
 import org.speedy.Task;
 
 @Remote
-public interface AssignmentDAORemote {
+public interface AssignmentSessionRemote {
 	
 	public List<Task> getOpenTasks();
 
