@@ -16,9 +16,9 @@ public class ProgrammerDAO  implements ProgrammerDAORemote{
 	private EntityManager em;
 	public ProgrammerDAO() {
 	}
-	public void insert(Programmer programmer) {
+	public boolean insert(Programmer programmer) {
 		em.persist(programmer);
-		em.flush();
+		return !em.getTransaction().getRollbackOnly();
 	}
 	public void doSmth() {
 		
