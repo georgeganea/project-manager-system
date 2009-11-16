@@ -3,6 +3,9 @@ package usr.speedy.ds.programmers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
@@ -10,6 +13,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.speedy.ProgrammerSessionRemote;
 
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
@@ -39,6 +43,18 @@ public class HireComposite extends Composite implements IManageble{
 			@Override
 			public void mouseDown(MouseEvent e) {
 				//TODO add logic here
+				
+				InitialContext ctx;
+				try {
+					ctx = new InitialContext();
+					ProgrammerSessionRemote  bean = ( ProgrammerSessionRemote) ctx.lookup("programmerSession"); 
+					bean.addProgrammer(text.getText());
+				} catch (NamingException e1) {
+					e1.printStackTrace();
+				} 
+				
+
+				
 				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, "Hired or not");
 				for (IListener listener : listeners) {
 					listener.contentChanged(messageComposite);
