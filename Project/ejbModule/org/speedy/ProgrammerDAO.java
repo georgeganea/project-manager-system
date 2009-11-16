@@ -28,25 +28,4 @@ public class ProgrammerDAO  implements ProgrammerDAORemote{
 		return true;
 	}
 
-	public List<Programmer> getAllProgrammers() {
-		return (List<Programmer>) em.createQuery("select p from "+Programmer.class.getName()+" p").getResultList();	
-	}
-
-	public Task getTaskForProgrammer(String name){
-		try{
-			Programmer aProgrammer = (Programmer) em.createQuery("select p from "+Programmer.class.getName()+" p where p.name = :theName").setParameter("theName", name).getSingleResult();
-			if (aProgrammer.getAssingments().size() == 1){
-				Assingment anAssingment = aProgrammer.getAssingments().iterator().next();
-				return anAssingment.getTask();
-			}
-			return null;
-		}
-		catch(NoResultException e){
-			return null;
-		}
-		catch(NonUniqueResultException e){
-			return null;
-		}
-	}
-
 }
