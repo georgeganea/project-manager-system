@@ -42,20 +42,17 @@ public class HireComposite extends Composite implements IManageble{
 		btnOk.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
-				//TODO add logic here
-				
 				InitialContext ctx;
+				boolean result=false;
+				String name = text.getText();
 				try {
 					ctx = new InitialContext();
 					ProgrammerSessionRemote  bean = ( ProgrammerSessionRemote) ctx.lookup("programmerSession"); 
-					bean.addProgrammer(text.getText());
+					result = bean.addProgrammer(name);
 				} catch (NamingException e1) {
 					e1.printStackTrace();
 				} 
-				
-
-				
-				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, "Hired or not");
+				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, result ? "Programmer "+name+" succesfully hired":"Programmer "+name+" could not be hired, sorry :(");
 				for (IListener listener : listeners) {
 					listener.contentChanged(messageComposite);
 				}
