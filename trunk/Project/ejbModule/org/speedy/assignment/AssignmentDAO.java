@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import org.jboss.ejb3.annotation.RemoteBinding;
 import org.speedy.Assingment;
 import org.speedy.Programmer;
-import org.speedy.ProgrammerDAORemote;
 import org.speedy.Task;
 
 /**
@@ -54,6 +53,5 @@ public class AssignmentDAO implements AssignmentDAORemote {
 			return null;
 		}
 	}
-
 
 }
