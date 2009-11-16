@@ -16,6 +16,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
 import usr.speedy.ds.programmers.ProgrammersCTab;
+import usr.speedy.ds.tasks.TasksCTab;
 
 public class ApplicationWindow {
 
@@ -65,7 +66,7 @@ public class ApplicationWindow {
 		
 		new ProgrammersCTab().create(tabFolder);
 		
-		CTabItem tbtmTasks = new CTabItem(tabFolder, SWT.NONE);
+		/*CTabItem tbtmTasks = new CTabItem(tabFolder, SWT.NONE);
 		tbtmTasks.setText("Tasks");
 		
 		Composite mainCompositeTasks = new Composite(tabFolder, SWT.NONE);
@@ -86,8 +87,26 @@ public class ApplicationWindow {
 		Label label = new Label(mainCompositeTasks, SWT.SEPARATOR | SWT.VERTICAL);
 		label.setBounds(67, 10, 2, 213);
 		
-		Composite rightSideTasks = new Composite(mainCompositeTasks, SWT.NONE);
-		rightSideTasks.setBounds(75, 10, 339, 213);
+		*/
+		
+		new TasksCTab().create(tabFolder);
+		
+		CTabItem tbtmOverview = new CTabItem(tabFolder, SWT.NONE);
+		tbtmOverview.setText("Overview");
+		
+		Composite mainCompositeOverview = new Composite(tabFolder, SWT.NONE);
+		tbtmOverview.setControl(mainCompositeOverview);
+		
+		Label lblSystem = new Label(mainCompositeOverview, SWT.NONE);
+		lblSystem.setBounds(5, 47, 105, 16);
+		lblSystem.setText("System overview");
+		
+		Label lblOpenTasks = new Label(mainCompositeOverview, SWT.NONE);
+		lblOpenTasks.setBounds(5, 78, 96, 16);
+		lblOpenTasks.setText("Open Tasks");
+		
+		Label label_1 = new Label(mainCompositeOverview, SWT.SEPARATOR | SWT.VERTICAL);
+		label_1.setBounds(105, 10, 30, 214);
 
 	}
 }
