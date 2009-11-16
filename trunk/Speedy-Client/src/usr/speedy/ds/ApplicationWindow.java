@@ -15,7 +15,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
-public class TasksWindow {
+import usr.speedy.ds.programmers.ProgrammersCTab;
+
+public class ApplicationWindow {
 
 	protected Shell shell;
 
@@ -25,7 +27,7 @@ public class TasksWindow {
 	 */
 	public static void main(String[] args) {
 		try {
-			TasksWindow window = new TasksWindow();
+			ApplicationWindow window = new ApplicationWindow();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -61,45 +63,7 @@ public class TasksWindow {
 		tabFolder.setBounds(10, 10, 430, 258);
 		tabFolder.setSelectionBackground(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		
-		CTabItem tbtmProgrammers = new CTabItem(tabFolder, SWT.NONE);
-		tbtmProgrammers.setText("Programmers");
-		
-		final Composite mainCompositeProgrammers = new Composite(tabFolder, SWT.NONE);
-		tbtmProgrammers.setControl(mainCompositeProgrammers);
-		final Composite rightSideProgrammers = new Composite(mainCompositeProgrammers, SWT.NONE);
-		rightSideProgrammers.setBounds(75, 10, 339, 213);
-		
-		final Label lblHire = new Label(mainCompositeProgrammers, SWT.NONE);
-		lblHire.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				lblHire.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
-				rightSideProgrammers.dispose(); 
-				final HireComposite hireComposite = new HireComposite(mainCompositeProgrammers, SWT.NONE);
-				hireComposite.setBounds(75, 10, 339, 213);
-				hireComposite.setVisible(true);
-				shell.redraw();
-				hireComposite.addListener(new IListener() {
-					
-					public void contentChanged(Composite c) {
-						hireComposite.dispose();
-						c.setBounds(75, 10, 339, 213);
-						c.setVisible(true);
-						shell.redraw();
-					}
-				});
-			}
-		});
-		
-		lblHire.setBounds(5, 47, 59, 16);
-		lblHire.setText("Hire");
-		
-		Label lblFire = new Label(mainCompositeProgrammers, SWT.NONE);
-		lblFire.setBounds(5, 78, 59, 14);
-		lblFire.setText("Fire");
-		
-		Label label_1 = new Label(mainCompositeProgrammers, SWT.SEPARATOR);
-		label_1.setBounds(67, 10, 2, 213);
+		new ProgrammersCTab().create(tabFolder);
 		
 		CTabItem tbtmTasks = new CTabItem(tabFolder, SWT.NONE);
 		tbtmTasks.setText("Tasks");
