@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE server>
+
+<server>
+    <mbean code="org.jboss.hibernate.jmx.Hibernate" name="jboss.adminguide:name=HibernateSessionFactory">
+    
+        <attribute name="DatasourceName">java:jdbc/programmersDS</attribute>
+        <attribute name="Dialect">org.hibernate.dialect.MySQLDialect</attribute>
+        <attribute name="SessionFactoryName">HibernateSessionFactory</attribute>
+        <attribute name="CacheProviderClass">org.hibernate.cache.HashtableCacheProvider</attribute>
+        <attribute name="ShowSqlEnabled">true</attribute>
+        
+    </mbean>
+</server>
