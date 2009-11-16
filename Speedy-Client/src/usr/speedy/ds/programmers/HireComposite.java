@@ -1,4 +1,4 @@
-package usr.speedy.ds;
+package usr.speedy.ds.programmers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+
+import usr.speedy.ds.IListener;
+import usr.speedy.ds.IManageble;
+import usr.speedy.ds.MessageComposite;
 
 public class HireComposite extends Composite implements IManageble{
 	private Text text;
@@ -35,7 +39,7 @@ public class HireComposite extends Composite implements IManageble{
 			@Override
 			public void mouseDown(MouseEvent e) {
 				//TODO add logic here
-				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, "Ceva text");
+				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, "Hired or not");
 				for (IListener listener : listeners) {
 					listener.contentChanged(messageComposite);
 				}
@@ -43,6 +47,11 @@ public class HireComposite extends Composite implements IManageble{
 		});
 		btnOk.setBounds(167, 86, 94, 30);
 		btnOk.setText("Ok");
+		
+		Label lblInsertTheName = new Label(this, SWT.NONE);
+		lblInsertTheName.setBounds(10, 10, 287, 16);
+		lblInsertTheName.setText("Insert the name of the programmer being hired:");
+
 
 	}
 
