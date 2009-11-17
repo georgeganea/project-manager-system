@@ -7,6 +7,7 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 import org.jboss.ejb3.annotation.RemoteBinding;
+import org.speedy.Programmer;
 import org.speedy.Task;
 
 /**
@@ -24,11 +25,19 @@ public class AssignmentSession implements AssignmentSessionRemote, AssignmentSes
     }
     
     public List<Task> getOpenTasks(){
-    	return assignDAO.getOpenTasks();
+    	return assignDAO.getTasks("open");
     }
 
 	public List<Task> getClosedTasks(){
-		return assignDAO.getClosedTasks();
+		return assignDAO.getTasks("closed");
+	}
+
+	public List<Programmer> getAvailableProgrammers() {
+		return assignDAO.getProgrammers("available");
+	}
+
+	public List<Programmer> getBusyProgrammers() {
+		return assignDAO.getProgrammers("busy");
 	}
 
 }
