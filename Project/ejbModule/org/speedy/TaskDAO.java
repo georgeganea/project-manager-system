@@ -99,5 +99,25 @@ public class TaskDAO implements TaskDAORemote {
 	    em.persist(task);
 	
 	}
+	
+	public void close(Task task) {
+		Task aTask = em.find(Task.class, task.getId());
+		aTask.setStatus("colsed");
+		em.persist(aTask);
+		
+		List<Assingment> listassig =  em.createQuery("select p from " + Assingment.class.getName() + " p where p.tskID = :theId").setParameter("theId",task.getId()).getResultList();
+		
+		int index = 0;
+
+		while(index<listassig.size()){
+			Programmer prog = (Programmer) em.createQuery("select p from "+Programmer.class.getName()+" p where p.id = :theId").setParameter("theId", listassig.get(index).getProgrammer().getId()).getSingleResult();
+			Programmer aProg = em.find(Programmer.class,prog.getId());
+			aProg.setStatus("available");
+			em.persist(aProg);
+			Assingment aAssig = em.find(Assingment.class, listassig.get(index).getAssID());
+			em.remove(aAssig);
+		}
+		
+	}
 
 }
