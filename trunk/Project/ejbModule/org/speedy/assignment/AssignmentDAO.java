@@ -19,8 +19,7 @@ import org.speedy.Task;
  */
 @Stateless
 @Remote(AssignmentDAORemote.class)
-@RemoteBinding(jndiBinding = "programmersDS")
-
+@RemoteBinding(jndiBinding = "assignment")
 public class AssignmentDAO implements AssignmentDAORemote {
 
 	@PersistenceContext(unitName = "Project")
@@ -54,12 +53,12 @@ public class AssignmentDAO implements AssignmentDAORemote {
 		}
 	}
 	
-	public List<Task> getOpenTasks(){
-		return (List<Task>) em.createQuery("select t from "+Task.class.getName()+" t where status = 'open'").getResultList();
+	public List<Task> getTasks(String status){
+		return (List<Task>) em.createQuery("select t from "+Task.class.getName()+" t where status = '"+status+"'").getResultList();
 	}
 
-	public List<Task> getClosedTasks(){
-		return (List<Task>) em.createQuery("select t from "+Task.class.getName()+" t where status = 'closed'").getResultList();
+	public List<Programmer> getProgrammers(String status) {
+		return (List<Programmer>) em.createQuery("select p from "+Programmer.class.getName()+" p where status = '"+status+"'").getResultList();
 	}
 
 }

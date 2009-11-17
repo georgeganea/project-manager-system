@@ -3,12 +3,13 @@ import java.util.List;
 
 import javax.ejb.Remote;
 
+import org.speedy.Programmer;
 import org.speedy.Task;
 
 @Remote
 public interface AssignmentDAORemote {
 	
-	public List<Task> getOpenTasks();
+	public List<Task> getTasks(String status);
 
-	public List<Task> getClosedTasks();
+	public List<Programmer> getProgrammers(String status);
 }
