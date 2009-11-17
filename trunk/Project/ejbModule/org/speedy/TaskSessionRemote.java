@@ -9,4 +9,6 @@ public interface TaskSessionRemote {
 	public void modify(int id, String name, String status);
 	
 	public void close(String name);
+	
+	public boolean addTask(String taskName,int noPeople);
 }
