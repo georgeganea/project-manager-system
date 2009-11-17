@@ -13,5 +13,7 @@ public interface TaskDAORemote {
 	public Task getTask(int id);
 
 	public void modify(Task task);
+	
+	public void close(Task task);
 
 }
