@@ -48,7 +48,7 @@ public class FindTaskComposite extends Composite implements IManageble{
 				String name = text.getText();
 				try {
 					ctx = new InitialContext();
-					TaskSessionRemote  bean = ( TaskSessionRemote) ctx.lookup("tasksSession"); 
+					TaskSessionRemote  bean = ( TaskSessionRemote) ctx.lookup("taskSession"); 
 					result = bean.findTaskID(name);
 				} catch (NamingException e1) {
 					e1.printStackTrace();
