@@ -7,5 +7,11 @@ import javax.ejb.Remote;
 public interface TaskDAORemote {
 
 	public boolean insert(Task task,int nb_programmer);
+	
+	public int getTaskID(String taskName);
+
+	public Task getTask(int id);
+
+	public void modify(Task task);
 
 }

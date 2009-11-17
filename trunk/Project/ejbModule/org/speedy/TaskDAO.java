@@ -71,5 +71,27 @@ public class TaskDAO implements TaskDAORemote {
 		
 		
 	}
+	
+	
+	
+	public int getTaskID(String taskName) {
+		Task aTask = (Task) em.createQuery("select p from "+Task.class.getName()+" p where p.name = :theName").setParameter("theName", taskName).getSingleResult();
+		System.out.println("FOUND the task ..... "+ aTask.getId());
+		return aTask.getId();
+	}
+	
+	public Task getTask(int id) {
+		Task aTask = (Task) em.createQuery("select p from "+Task.class.getName()+" p where p.id = :theid").setParameter("theid", id).getSingleResult();
+		return aTask;
+	}
+
+	public void modify(Task task) {
+		
+	    Task userx = em.find(Task.class, task.getId());
+	    task.setNopeople(userx.getNopeople());
+	    em.remove(userx);
+	    em.persist(task);
+	
+	}
 
 }
