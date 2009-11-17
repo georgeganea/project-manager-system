@@ -16,4 +16,6 @@ public interface AssignmentSessionRemote {
 	public List<Programmer> getAvailableProgrammers();
 	
 	public List<Programmer> getBusyProgrammers();
+	
+	public List<Programmer> getProgrammersForTask(String name);
 }

@@ -39,5 +39,9 @@ public class AssignmentSession implements AssignmentSessionRemote, AssignmentSes
 	public List<Programmer> getBusyProgrammers() {
 		return assignDAO.getProgrammers("busy");
 	}
+	
+	public List<Programmer> getProgrammersForTask(String name){
+		return assignDAO.getProgrammersForTask(name);
+	}
 
 }
