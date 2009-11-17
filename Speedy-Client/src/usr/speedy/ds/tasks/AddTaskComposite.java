@@ -46,21 +46,18 @@ public class AddTaskComposite extends Composite implements IManageble{
 			
 			@Override
 			public void mouseDown(MouseEvent e) {
+				InitialContext ctx;
+				boolean result=false;
+				String name = text.getText();
+				int nb_prg = Integer.parseInt(text_1.getText());
 				try {
 					ctx = new InitialContext();
 					TaskSessionRemote  bean = ( TaskSessionRemote) ctx.lookup("tasksSession"); 
-					
-					
-					/// 	AICI se pune codul care adauga in baza de date !!!
-					
-					
-					
-					
-					
+					result = bean.addTask(name,nb_prg);
 				} catch (NamingException e1) {
 					e1.printStackTrace();
-				}
-				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, "added the task ");
+				} 
+				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, result ? "Task "+name+" succesfully added":"Task "+name+" could not be added, sorry :( ");
 				for (IListener listener : listeners) {
 					listener.contentChanged(messageComposite);
 				}
@@ -75,9 +72,7 @@ public class AddTaskComposite extends Composite implements IManageble{
 		
 		Label lblStatus = new Label(this, SWT.NONE);
 		lblStatus.setBounds(12, 77, 60, 14);
-		lblStatus.setText("Status open/closed :");
-		
-		
+		lblStatus.setText("Insert the number of programmers needed:");
 		
 		text_1 = new Text(this, SWT.BORDER);
 		text_1.setBounds(88, 74, 173, 19);
