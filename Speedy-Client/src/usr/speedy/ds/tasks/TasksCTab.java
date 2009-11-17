@@ -11,7 +11,10 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 
+import usr.speedy.ds.EmptyComposite;
+import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
 
 import com.swtdesigner.SWTResourceManager;
@@ -20,11 +23,15 @@ public class TasksCTab {
 	private List<Label> allLabels = new ArrayList<Label>();
 	
 	public void create(CTabFolder tabFolder){
+		final Shell shell = tabFolder.getShell();
 		CTabItem tbtmTasks = new CTabItem(tabFolder, SWT.NONE);
 		tbtmTasks.setText("Tasks");
 		
 		final Composite mainCompositeTasks = new Composite(tabFolder, SWT.NONE);
 		tbtmTasks.setControl(mainCompositeTasks);
+		
+		final Composite rightSideProgrammers = new Composite(mainCompositeTasks, SWT.NONE);
+		rightSideProgrammers.setBounds(75, 10, 339, 213);
 		
 		final Label lblAdd = new Label(mainCompositeTasks, SWT.NONE);
 		lblAdd.setBounds(5, 47, 59, 16);
@@ -35,7 +42,20 @@ public class TasksCTab {
 			public void mouseDown(MouseEvent e) {
 				disable();
 				lblAdd.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
-				disposeRightSideComposite(mainCompositeTasks);
+				disposeRightSideComposite(rightSideProgrammers);
+				
+				final FindTaskComposite findTaskComposite = new FindTaskComposite(rightSideProgrammers, SWT.NONE);
+				findTaskComposite.setBounds(10, 10, 339, 213);
+				findTaskComposite.setVisible(true);
+				shell.redraw();
+				findTaskComposite.addListener(new IListener() {
+					public void contentChanged(Composite c) {
+						findTaskComposite.dispose();
+						c.setBounds(75, 10, 339, 213);
+						c.setVisible(true);
+						shell.redraw();
+					}
+				});
 			}
 		});
 		
