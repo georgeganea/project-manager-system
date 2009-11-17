@@ -36,6 +36,30 @@ public class TasksCTab {
 		final Label lblAdd = new Label(mainCompositeTasks, SWT.NONE);
 		lblAdd.setBounds(5, 47, 59, 16);
 		lblAdd.setText("Add");
+		lblAdd.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				disable();
+				lblAdd.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
+				disposeRightSideComposite(rightSideProgrammers);
+				
+				final AddTaskComposite findTaskComposite = new AddTaskComposite(rightSideProgrammers, SWT.NONE);
+				findTaskComposite.setBounds(10, 10, 339, 213);
+				findTaskComposite.setVisible(true);
+				shell.redraw();
+				findTaskComposite.addListener(new IListener() {
+					public void contentChanged(Composite c) {
+						findTaskComposite.dispose();
+						c.setBounds(75, 10, 339, 213);
+						c.setVisible(true);
+						shell.redraw();
+					}
+				});
+			}
+		});
+		
+		
+		
 		allLabels.add(lblAdd);
 		
 		
