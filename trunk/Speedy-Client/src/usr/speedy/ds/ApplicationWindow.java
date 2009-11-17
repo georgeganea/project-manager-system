@@ -1,11 +1,19 @@
 package usr.speedy.ds;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabFolder2Listener;
+import org.eclipse.swt.custom.CTabFolderEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import com.swtdesigner.SWTResourceManager;
+
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
@@ -14,9 +22,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 
 import usr.speedy.ds.programmers.ProgrammersCTab;
 import usr.speedy.ds.tasks.TasksCTab;
+import usr.speedy.overview.OverviewCTab;
 
 public class ApplicationWindow {
 
@@ -64,49 +75,49 @@ public class ApplicationWindow {
 		tabFolder.setBounds(10, 10, 430, 258);
 		tabFolder.setSelectionBackground(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		
-		new ProgrammersCTab().create(tabFolder);
+		ProgrammersCTab programmersCTab = new ProgrammersCTab();
+		programmersCTab.create(tabFolder);
 		
-		/*CTabItem tbtmTasks = new CTabItem(tabFolder, SWT.NONE);
-		tbtmTasks.setText("Tasks");
+		TasksCTab tasksCTab = new TasksCTab();
+		tasksCTab.create(tabFolder);
 		
-		Composite mainCompositeTasks = new Composite(tabFolder, SWT.NONE);
-		tbtmTasks.setControl(mainCompositeTasks);
+		final OverviewCTab overviewCTab = new OverviewCTab();
+		overviewCTab.create(tabFolder);
 		
-		Label lblAdd = new Label(mainCompositeTasks, SWT.NONE);
-		lblAdd.setBounds(5, 47, 59, 16);
-		lblAdd.setText("Add");
+		tabFolder.addSelectionListener(new SelectionListener() {
+			
+			public void widgetSelected(SelectionEvent arg0) {
+				if (arg0.getSource() instanceof CTabFolder){
+					CTabFolder tabFolder = (CTabFolder)arg0.getSource();
+					CTabItem selection = tabFolder.getSelection();
+					Control control = selection.getControl();
+					if (control instanceof Composite){
+						Composite parentComposite = (Composite)control;
+						for (Control aChild : parentComposite.getChildren()) {
+							if (aChild instanceof Composite){
+								Composite composite = (Composite)aChild;
+								Control[] grandChildren = composite.getChildren();
+								for (Control grandChild : grandChildren) {
+									if (grandChild instanceof Combo){
+										overviewCTab.refresh();
+										Combo theCombo = (Combo)grandChild;
+										theCombo.computeSize(SWT.DEFAULT,SWT.DEFAULT,true);
+										theCombo.layout();
+										theCombo.getParent().layout();
+										theCombo.setRedraw(true);
+										
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				
+			}
+		});
 		
-		Label lblDelete = new Label(mainCompositeTasks, SWT.NONE);
-		lblDelete.setBounds(5, 78, 59, 16);
-		lblDelete.setText("Delete");
-		
-		Label lblModify = new Label(mainCompositeTasks, SWT.NONE);
-		lblModify.setBounds(5, 109, 59, 16);
-		lblModify.setText("Modify");
-		
-		Label label = new Label(mainCompositeTasks, SWT.SEPARATOR | SWT.VERTICAL);
-		label.setBounds(67, 10, 2, 213);
-		
-		*/
-		
-		new TasksCTab().create(tabFolder);
-		
-		CTabItem tbtmOverview = new CTabItem(tabFolder, SWT.NONE);
-		tbtmOverview.setText("Overview");
-		
-		Composite mainCompositeOverview = new Composite(tabFolder, SWT.NONE);
-		tbtmOverview.setControl(mainCompositeOverview);
-		
-		Label lblSystem = new Label(mainCompositeOverview, SWT.NONE);
-		lblSystem.setBounds(5, 47, 105, 16);
-		lblSystem.setText("System overview");
-		
-		Label lblOpenTasks = new Label(mainCompositeOverview, SWT.NONE);
-		lblOpenTasks.setBounds(5, 78, 96, 16);
-		lblOpenTasks.setText("Open Tasks");
-		
-		Label label_1 = new Label(mainCompositeOverview, SWT.SEPARATOR | SWT.VERTICAL);
-		label_1.setBounds(105, 10, 30, 214);
-
 	}
 }
