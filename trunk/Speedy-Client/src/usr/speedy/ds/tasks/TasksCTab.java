@@ -37,11 +37,21 @@ public class TasksCTab {
 		lblAdd.setBounds(5, 47, 59, 16);
 		lblAdd.setText("Add");
 		allLabels.add(lblAdd);
-		lblAdd.addMouseListener(new MouseAdapter() {
+		
+		
+		Label lblDelete = new Label(mainCompositeTasks, SWT.NONE);
+		lblDelete.setBounds(5, 78, 59, 16);
+		lblDelete.setText("Delete");
+		allLabels.add(lblDelete);
+		
+		final Label lblModify = new Label(mainCompositeTasks, SWT.NONE);
+		lblModify.setBounds(5, 109, 59, 16);
+		lblModify.setText("Modify");
+		lblModify.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
 				disable();
-				lblAdd.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
+				lblModify.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 				disposeRightSideComposite(rightSideProgrammers);
 				
 				final FindTaskComposite findTaskComposite = new FindTaskComposite(rightSideProgrammers, SWT.NONE);
@@ -58,16 +68,6 @@ public class TasksCTab {
 				});
 			}
 		});
-		
-		
-		Label lblDelete = new Label(mainCompositeTasks, SWT.NONE);
-		lblDelete.setBounds(5, 78, 59, 16);
-		lblDelete.setText("Delete");
-		allLabels.add(lblDelete);
-		
-		Label lblModify = new Label(mainCompositeTasks, SWT.NONE);
-		lblModify.setBounds(5, 109, 59, 16);
-		lblModify.setText("Modify");
 		allLabels.add(lblModify);
 		
 		Label label = new Label(mainCompositeTasks, SWT.SEPARATOR | SWT.VERTICAL);
