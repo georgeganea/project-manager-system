@@ -13,9 +13,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+
 import usr.speedy.ds.EmptyComposite;
 import usr.speedy.ds.IListener;
+
 import usr.speedy.ds.IManageble;
+import usr.speedy.ds.programmers.FireComposite;
 
 import com.swtdesigner.SWTResourceManager;
 
@@ -37,6 +40,12 @@ public class TasksCTab {
 		lblAdd.setBounds(5, 47, 59, 16);
 		lblAdd.setText("Add");
 		lblAdd.addMouseListener(new MouseAdapter() {
+			/*@Override
+			public void mouseDown(MouseEvent e) {
+				disable();
+				lblAdd.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
+				disposeRightSideComposite(mainCompositeTasks);
+			}*/
 			@Override
 			public void mouseDown(MouseEvent e) {
 				disable();
@@ -55,6 +64,19 @@ public class TasksCTab {
 						shell.redraw();
 					}
 				});
+				/*final HireComposite hireComposite = new HireComposite(mainCompositeTasks, SWT.NONE);
+				hireComposite.setBounds(75, 10, 339, 213);
+				hireComposite.setVisible(true);
+				shell.redraw();
+				hireComposite.addListener(new IListener() {
+					
+					public void contentChanged(Composite c) {
+						hireComposite.dispose();
+						c.setBounds(75, 10, 339, 213);
+						c.setVisible(true);
+						shell.redraw();
+					}
+				});*/
 			}
 		});
 		
