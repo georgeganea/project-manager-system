@@ -53,7 +53,7 @@ public class AddTaskComposite extends Composite implements IManageble{
 				try {
 					ctx = new InitialContext();
 					TaskSessionRemote  bean = ( TaskSessionRemote) ctx.lookup("tasksSession"); 
-					result = bean.addTask(name,nb_prg);
+				//	result = bean.addTask(name,nb_prg);
 				} catch (NamingException e1) {
 					e1.printStackTrace();
 				} 
