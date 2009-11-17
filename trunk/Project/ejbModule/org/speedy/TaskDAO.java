@@ -1,5 +1,6 @@
 package org.speedy;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.Remote;
@@ -16,7 +17,7 @@ import org.jboss.ejb3.annotation.RemoteBinding;
  */
 @Stateless
 @Remote(TaskDAORemote.class)
-@RemoteBinding(jndiBinding = "programmersDS")
+@RemoteBinding(jndiBinding = "taskDAO")
 public class TaskDAO implements TaskDAORemote {
 	
 
@@ -33,29 +34,31 @@ public class TaskDAO implements TaskDAORemote {
 	public boolean insert(Task task, int nbProgrammer) {
 		try
 		{
-			List<Programmer> listprg =  em.createQuery("select p from " + Programmer.class.getName() + "p where p.status = 'available' " ).getResultList();
+			List<Programmer> listprg =  em.createQuery(" select p from "+Programmer.class.getName()+" p where p.status = :theStatus").setParameter("theStatus", "available").getResultList();
 			
-			if ( nbProgrammer > listprg.size()) return false;
+			if ( nbProgrammer > listprg.size()) {
+				System.out.println("else");
+				return false;}
 			else
 			{
-			    for (Programmer prg : listprg)
-			    	{
-			    	prg.setStatus("busy");
-			    	em.merge(prg);
-			    	}
 				
 			    List<Integer> maxList = (List<Integer>) em.createQuery("select max(id) from " + Task.class.getName() + " p" ).getResultList();
 			    
 			    int max = maxList.get(0);
 			    Assingment ass;
-			    for (Programmer prg : listprg)
-			    {
-			    	ass =new Assingment();
-			    	
-			    	ass.setProgrammer(prg);
-			    	ass.setTask(task);
-			    	em.persist(ass);
-			    }
+			    Iterator<Programmer> it = listprg.iterator();
+				   while(it.hasNext() && nbProgrammer !=0)
+				    	{
+					   	Programmer p = (Programmer)it.next();
+				    	p.setStatus("busy");
+				    	em.merge(p);
+				    		
+				    	ass =new Assingment();
+				    	ass.setAssID(max+1);
+				    	ass.setProgrammer(p);
+				    	ass.setTask(task);
+				    	em.persist(ass);
+				    	}
 			    
 				em.persist(task);
 				return true;
