@@ -1,6 +1,8 @@
 package org.speedy.assignment;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -36,14 +38,15 @@ public class AssignmentDAO implements AssignmentDAORemote {
 		return (List<Programmer>) em.createQuery("select p from "+Programmer.class.getName()+" p").getResultList();	
 	}
 
-	public Task getTaskForProgrammer(String name){
+	public List<Programmer> getProgrammersForTask(String name){
 		try{
-			Programmer aProgrammer = (Programmer) em.createQuery("select p from "+Programmer.class.getName()+" p where p.name = :theName").setParameter("theName", name).getSingleResult();
-			if (aProgrammer.getAssingments().size() == 1){
-				Assingment anAssingment = aProgrammer.getAssingments().iterator().next();
-				return anAssingment.getTask();
+			Task aTask = (Task) em.createQuery("select t from "+Task.class.getName()+" t where t.name = :theName").setParameter("theName", name).getSingleResult();
+			Set<Assingment> assingments = aTask.getAssingments();
+			List<Programmer> allProgrammers = new ArrayList<Programmer>();			
+			for (Assingment assingment : assingments) {
+				allProgrammers.add(assingment.getProgrammer());
 			}
-			return null;
+			return allProgrammers;
 		}
 		catch(NoResultException e){
 			return null;

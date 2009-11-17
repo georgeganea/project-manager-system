@@ -12,4 +12,6 @@ public interface AssignmentDAORemote {
 	public List<Task> getTasks(String status);
 
 	public List<Programmer> getProgrammers(String status);
+	
+	public List<Programmer> getProgrammersForTask(String name);
 }
