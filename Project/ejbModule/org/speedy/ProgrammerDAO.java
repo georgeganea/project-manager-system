@@ -20,7 +20,7 @@ import org.jboss.ejb3.annotation.RemoteBinding;
  */
 @Stateless
 @Remote(ProgrammerDAORemote.class)
-@RemoteBinding(jndiBinding = "programmersDS")
+@RemoteBinding(jndiBinding = "programmerDAO")
 public class ProgrammerDAO  implements ProgrammerDAORemote{
 
 	@PersistenceContext(unitName = "Project")
