@@ -59,23 +59,10 @@ public class ProgrammerDAO  implements ProgrammerDAORemote{
 			}
 		
 			em.remove(em.merge(prog));
-			
-			//   em.getTransaction().begin();
-			//    Programmer prg = em.find(Programmer.class, prog.getId());
-			//   em.remove(prg); 
-			//  em.flush();
+			em.flush();
 		    return true;
 			  
 			 
-			  
-			 
-			
-		//	prog = em.merge(prog);
-		//	em.remove(prog);
-		//	em.flush();
-		//	em.createNativeQuery("delete from programmers");
-		//	em.createQuery("Delete p from "+Programmer.class.getName()+" where id="+prog.getId());
-		//	em.persist(prog);
 			
 		}
 		catch(NoResultException e){
@@ -83,8 +70,7 @@ public class ProgrammerDAO  implements ProgrammerDAORemote{
 		}
 		catch(NonUniqueResultException e){
 			return false;
-		}
-		
+		}	
 	}
 
 }
