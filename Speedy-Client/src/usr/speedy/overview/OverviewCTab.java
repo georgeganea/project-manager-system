@@ -6,8 +6,6 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Composite;
@@ -53,9 +51,22 @@ public class OverviewCTab implements IUpdatable{
 			}
 		});
 
-		Label lblOpenTasks = new Label(mainCompositeOverview, SWT.NONE);
+		final Label lblOpenTasks = new Label(mainCompositeOverview, SWT.NONE);
 		lblOpenTasks.setBounds(5, 78, 96, 16);
 		lblOpenTasks.setText("Open Tasks");
+		lblOpenTasks.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				disable();
+				lblOpenTasks.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
+				disposeRightSideComposite(mainCompositeOverview);
+				overviewComposite = null;
+				MappingsComposite mappingsComposite = new MappingsComposite(mainCompositeOverview, SWT.NONE);
+				mappingsComposite.setBounds(123, 10, 300, 213);
+				mappingsComposite.setVisible(true);
+				shell.redraw();
+			}
+		});
 		allLabels.add(lblOpenTasks);
 
 		Label label_1 = new Label(mainCompositeOverview, SWT.SEPARATOR | SWT.VERTICAL);

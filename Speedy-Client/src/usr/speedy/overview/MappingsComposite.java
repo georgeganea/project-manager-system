@@ -1,5 +1,7 @@
 package usr.speedy.overview;
 
+import java.util.List;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -24,6 +26,20 @@ public class MappingsComposite extends Composite implements IManageble{
 	public class TreeContentProvider implements ITreeContentProvider {
 
 		public Object[] getChildren(Object arg0) {
+			System.out.println("Clasa:"+arg0.getClass());
+			if (arg0 instanceof Task){
+				System.out.println(">>>>"+arg0);
+				InitialContext ctx;
+				try {
+					ctx = new InitialContext();
+					AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession");
+					List<Programmer> programmersForTask = bean.getProgrammersForTask(((Task)arg0).getName());
+					if (programmersForTask != null)
+						return programmersForTask.toArray(new Programmer[programmersForTask.size()]);
+				} catch (NamingException e) {
+					e.printStackTrace();
+				}
+			}
 			return new Object[0];
 		}
 
@@ -33,19 +49,20 @@ public class MappingsComposite extends Composite implements IManageble{
 		}
 
 		public boolean hasChildren(Object arg0) {
-			return false;
+			return (arg0 instanceof Task);
 		}
 
 		public Object[] getElements(Object arg0) {
 			InitialContext ctx;
 			try {
 				ctx = new InitialContext();
-				AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession"); 
-				return bean.getOpenTasks().toArray(new Task[bean.getOpenTasks().size()]);
+				AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession");
+				List<Task> openTasks = bean.getOpenTasks();
+				return openTasks.toArray(new Task[openTasks.size()]);
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
-			return null;
+			return new Object[0];
 		}
 
 		public void dispose() {
@@ -104,6 +121,7 @@ public class MappingsComposite extends Composite implements IManageble{
 		treeViewer.setContentProvider(new TreeContentProvider());
 		treeViewer.setLabelProvider(new TreeLabelProvider());
 		treeViewer.setInput("root"); // pass a non-null that will be ignored
+		treeViewer.expandAll();
 	}
 
 	@Override
