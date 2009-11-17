@@ -1,14 +1,28 @@
 package usr.speedy.overview;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
+import java.util.List;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.speedy.Programmer;
+import org.speedy.Task;
+import org.speedy.assignment.AssignmentSessionRemote;
 
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
 
 public class SystemOverview extends Composite implements IManageble{
+
+	private Combo closedTasksCombo;
+	private Combo availableProgrammersCombo;
+	private Combo busyProgrammersCombo;
+	private Combo openTasksCombo;
+
 
 	/**
 	 * Create the composite.
@@ -34,23 +48,97 @@ public class SystemOverview extends Composite implements IManageble{
 		lblBusyProgrammers.setBounds(10, 116, 115, 16);
 		lblBusyProgrammers.setText("Busy programmers:");
 		
-		Combo openTasksCombo = new Combo(this, SWT.NONE);
-		openTasksCombo.setBounds(80, 17, 166, 22);
+		openTasksCombo = new Combo(this, SWT.READ_ONLY);
+		openTasksCombo.setBounds(85, 17, 120, 22);
 		openTasksCombo.setItems(getOpenTasks());
 		
-		Combo closedTasksCombo = new Combo(this, SWT.NONE);
-		closedTasksCombo.setBounds(90, 50, 166, 22);
+		closedTasksCombo = new Combo(this, SWT.READ_ONLY);
+		closedTasksCombo.setBounds(95, 50, 120, 22);
+		closedTasksCombo.setItems(getClosedTasks());
 		
-		Combo availableProgrammersCombo = new Combo(this, SWT.NONE);
-		availableProgrammersCombo.setBounds(143, 81, 172, 22);
+		availableProgrammersCombo = new Combo(this, SWT.READ_ONLY);
+		availableProgrammersCombo.setBounds(155, 81, 120, 22);
+		availableProgrammersCombo.setItems(getAvailableProgrammers());
 		
-		Combo busyProgrammersCombo = new Combo(this, SWT.NONE);
-		busyProgrammersCombo.setBounds(120, 112, 155, 22);
+		busyProgrammersCombo = new Combo(this, SWT.READ_ONLY);
+		busyProgrammersCombo.setBounds(130, 112, 120, 22);
+		busyProgrammersCombo.setItems(getBusyProgrammers());
+	}
+	
+	private String[] getOpenTasks() {
+		InitialContext ctx;
+		try {
+			ctx = new InitialContext();
+			AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession"); 
+			List<Task> openTasks = bean.getOpenTasks();
+			String[] openTasksNames = new String[openTasks.size()];
+			int i = 0;
+			for (Task aTask : openTasks) {
+				openTasksNames[i++] = aTask.getName(); 
+			}
+			return openTasksNames;
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return new String[0];
 
 	}
+	
+	private String[] getClosedTasks() {
+		InitialContext ctx;
+		try {
+			ctx = new InitialContext();
+			AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession"); 
+			List<Task> closedTasks = bean.getClosedTasks();
+			String[] closedTasksNames = new String[closedTasks.size()];
+			int i = 0;
+			for (Task aTask : closedTasks) {
+				closedTasksNames[i++] = aTask.getName(); 
+			}
+			return closedTasksNames;
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return new String[0];
 
-	private String[] getOpenTasks() {
-		return null;
+	}
+	
+	private String[] getAvailableProgrammers() {
+		InitialContext ctx;
+		try {
+			ctx = new InitialContext();
+			AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession"); 
+			List<Programmer> availableProgrammers = bean.getAvailableProgrammers();
+			String[] availableProgrammersNames = new String[availableProgrammers.size()];
+			int i = 0;
+			for (Programmer aProgrammer : availableProgrammers) {
+				availableProgrammersNames[i++] = aProgrammer.getName(); 
+			}
+			return availableProgrammersNames;
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return new String[0];
+
+	}
+	
+	private String[] getBusyProgrammers() {
+		InitialContext ctx;
+		try {
+			ctx = new InitialContext();
+			AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession"); 
+			List<Programmer> busyProgrammers = bean.getBusyProgrammers();
+			String[] busyProgrammersNames = new String[busyProgrammers.size()];
+			int i = 0;
+			for (Programmer aProgrammer : busyProgrammers) {
+				busyProgrammersNames[i++] = aProgrammer.getName(); 
+			}
+			return busyProgrammersNames;
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return new String[0];
+
 	}
 
 	@Override
@@ -60,5 +148,15 @@ public class SystemOverview extends Composite implements IManageble{
 
 	public void addListener(IListener listener) {
 		
+	}
+
+	public void refresh() {
+		openTasksCombo.setItems(getOpenTasks());
+		
+		closedTasksCombo.setItems(getClosedTasks());
+		
+		availableProgrammersCombo.setItems(getAvailableProgrammers());
+		
+		busyProgrammersCombo.setItems(getBusyProgrammers());
 	}
 }
