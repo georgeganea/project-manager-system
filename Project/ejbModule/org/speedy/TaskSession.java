@@ -30,6 +30,15 @@ public class TaskSession implements TaskSessionRemote, TaskSessionLocal {
 		taskDAO.modify(task);
 		System.out.println("modified in the database!!!!");
 	}
+
+
+	public boolean addTask(String taskName, int nb_programmer) {
+		Task task=  new Task(); 
+		task.setName(taskName);
+		task.setStatus("open");
+		return taskDAO.insert(task, nb_programmer);
+	}
+
 	
 	public void close(String name){
 		int taskId = taskDAO.getTaskID(name);
@@ -38,4 +47,5 @@ public class TaskSession implements TaskSessionRemote, TaskSessionLocal {
 		taskDAO.close(task);
 	
 	}
+
 }
