@@ -3,6 +3,8 @@ package org.speedy;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 import org.jboss.ejb3.annotation.RemoteBinding;
 
@@ -25,5 +27,7 @@ public class ProgrammerSession implements ProgrammerSessionLocal , ProgrammerSes
 		
 	}
 
-
+	public boolean fireProgrammer(String name) {
+		return programmer.delete(name);		
+	}
 }
