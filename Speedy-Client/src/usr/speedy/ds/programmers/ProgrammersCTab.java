@@ -16,10 +16,11 @@ import org.eclipse.swt.widgets.Shell;
 import usr.speedy.ds.EmptyComposite;
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
+import usr.speedy.ds.IUpdatable;
 
 import com.swtdesigner.SWTResourceManager;
 
-public class ProgrammersCTab {
+public class ProgrammersCTab implements IUpdatable{
 	private List<Label> allLabels = new ArrayList<Label>();
 	
 	public void create(CTabFolder tabFolder){
@@ -29,6 +30,7 @@ public class ProgrammersCTab {
 		
 		final Composite mainCompositeProgrammers = new Composite(tabFolder, SWT.NONE);
 		tbtmProgrammers.setControl(mainCompositeProgrammers);
+		
 		final Composite rightSideProgrammers = new EmptyComposite(mainCompositeProgrammers, SWT.NONE);
 		rightSideProgrammers.setBounds(75, 10, 339, 213);
 		
@@ -100,5 +102,9 @@ public class ProgrammersCTab {
 		for (Label aLabel : allLabels) {
 			aLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
 		}
+	}
+
+	public void refresh() {
+		
 	}
 }
