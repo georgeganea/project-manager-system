@@ -27,7 +27,7 @@ public class TaskSession implements TaskSessionRemote, TaskSessionLocal {
 		Task task = taskDAO.getTask(id);
 		task.setStatus(status);
 		task.setNopeople(noPeople);
-		taskDAO.persist(task);
+		taskDAO.modify(task);
 		System.out.println("modified in the database!!!!");
 	}
 }
