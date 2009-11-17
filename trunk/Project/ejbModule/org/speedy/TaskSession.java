@@ -11,11 +11,11 @@ import org.jboss.ejb3.annotation.RemoteBinding;
  */
 @Stateless
 @Remote(TaskSessionRemote.class)
-@RemoteBinding(jndiBinding = "tasksSession")
+@RemoteBinding(jndiBinding = "taskSession")
 public class TaskSession implements TaskSessionRemote, TaskSessionLocal {
 	
 	@EJB
-	private TasksDAORemote taskDAO;
+	private TaskDAORemote taskDAO;
 
 	public int findTaskID(String taskName) {
 		
