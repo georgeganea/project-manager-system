@@ -52,8 +52,8 @@ public class AddTaskComposite extends Composite implements IManageble{
 				int nb_prg = Integer.parseInt(text_1.getText());
 				try {
 					ctx = new InitialContext();
-					TaskSessionRemote  bean = ( TaskSessionRemote) ctx.lookup("tasksSession"); 
-				//	result = bean.addTask(name,nb_prg);
+					TaskSessionRemote  bean = ( TaskSessionRemote) ctx.lookup("taskSession"); 
+					result = bean.addTask(name,nb_prg);
 				} catch (NamingException e1) {
 					e1.printStackTrace();
 				} 
@@ -72,7 +72,7 @@ public class AddTaskComposite extends Composite implements IManageble{
 		
 		Label lblStatus = new Label(this, SWT.NONE);
 		lblStatus.setBounds(12, 77, 60, 14);
-		lblStatus.setText("Insert the number of programmers needed:");
+		lblStatus.setText("Programmers:");
 		
 		text_1 = new Text(this, SWT.BORDER);
 		text_1.setBounds(88, 74, 173, 19);
