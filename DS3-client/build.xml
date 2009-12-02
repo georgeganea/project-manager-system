@@ -10,10 +10,16 @@
   	
   	<exec executable="wsimport">
   	    	
-  	      <arg line="-keep -s ./src -p usr.speedy.ds.client.programmers -d ./bin http://localhost:8083/DS3/fire?wsdl"/>
+  		<arg line="-keep -s ./src -p usr.speedy.ds.client.programmers -d ./bin http://localhost:8083/DS3/fire?wsdl"/>
   	    		
-  	  	</exec>
+  	</exec>
 
+  	<exec executable="wsimport">
+  		  	    	
+  		<arg line="-keep -s ./src -p usr.speedy.ds.client.overview -d ./bin http://localhost:8083/DS3/overview?wsdl"/>
+  		  	    		
+  	</exec>
+  	
   </target>
 
 </project>
