@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="/Users/ioanaverebi/Desktop/eclipse 3/plugins/org.eclipse.jface_3.5.1.M20090826-0800.jar"/>
+	<classpathentry kind="lib" path="/Users/ioanaverebi/Desktop/eclipse 3/plugins/org.eclipse.jface.databinding_1.3.1.M20090826-0800.jar"/>
+	<classpathentry kind="lib" path="/Users/ioanaverebi/Desktop/eclipse 3/plugins/org.eclipse.swt_3.5.1.v3555a.jar"/>
+	<classpathentry kind="lib" path="/Users/ioanaverebi/Desktop/eclipse 3/plugins/org.eclipse.swt.cocoa.macosx.x86_64_3.5.1.v3555a.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
