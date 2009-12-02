@@ -13,14 +13,14 @@ import javax.xml.bind.annotation.XmlType;
 public class GetProgrammersForTask {
 
     @XmlElement(name = "arg0", namespace = "")
-    private int arg0;
+    private String arg0;
 
     /**
      * 
      * @return
-     *     returns int
+     *     returns String
      */
-    public int getArg0() {
+    public String getArg0() {
         return this.arg0;
     }
 
@@ -29,7 +29,7 @@ public class GetProgrammersForTask {
      * @param arg0
      *     the value for the arg0 property
      */
-    public void setArg0(int arg0) {
+    public void setArg0(String arg0) {
         this.arg0 = arg0;
     }
 
