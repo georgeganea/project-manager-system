@@ -2,11 +2,17 @@
 
   <target name="wsimport">
   	
-  	<exec executable="/Users/ioanaverebi/SDK/bin/wsimport">
+  	<exec executable="wsimport">
     	
-      <arg line="-keep -s ./src -p usr.speedy.ds.client -d ./bin http://localhost:8085/DS3?wsdl"/>
+      <arg line="-keep -s ./src -p usr.speedy.ds.client.programmers -d ./bin http://localhost:8083/DS3/hire?wsdl"/>
     		
   	</exec>
+  	
+  	<exec executable="wsimport">
+  	    	
+  	      <arg line="-keep -s ./src -p usr.speedy.ds.client.programmers -d ./bin http://localhost:8083/DS3/fire?wsdl"/>
+  	    		
+  	  	</exec>
 
   </target>
 
