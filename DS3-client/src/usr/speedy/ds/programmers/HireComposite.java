@@ -17,8 +17,8 @@ import org.eclipse.swt.widgets.Text;
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
 import usr.speedy.ds.MessageComposite;
-import usr.speedy.ds.client.AddProgrammer;
-import usr.speedy.ds.client.AddProgrammerService;
+import usr.speedy.ds.client.programmers.AddProgrammer;
+import usr.speedy.ds.client.programmers.AddProgrammerService;
 
 public class HireComposite extends Composite implements IManageble{
 	private Text text;
@@ -52,7 +52,7 @@ public class HireComposite extends Composite implements IManageble{
 
 						AddProgrammer sh = shs.getAddProgrammerPort();
 
-						((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8085/DS3");
+						((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/hire");
 
 						System.out.println( ((BindingProvider)sh).toString() );
 

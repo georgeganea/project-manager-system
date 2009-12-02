@@ -3,8 +3,6 @@ package usr.speedy.ds.tasks;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.ws.BindingProvider;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -15,8 +13,6 @@ import org.eclipse.swt.widgets.Text;
 
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
-import usr.speedy.ds.client.AddProgrammer;
-import usr.speedy.ds.client.AddProgrammerService;
 
 public class AddTaskComposite extends Composite implements IManageble{
 	private Text text;
