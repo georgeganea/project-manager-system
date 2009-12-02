@@ -3,16 +3,24 @@ package usr.speedy.ds.programmers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.ws.BindingProvider;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
+import usr.speedy.ds.MessageComposite;
+import usr.speedy.ds.client.programmers.AddProgrammer;
+import usr.speedy.ds.client.programmers.AddProgrammerService;
+import usr.speedy.ds.client.programmers.FireProgrammer;
+import usr.speedy.ds.client.programmers.FireProgrammerService;
 
 public class FireComposite extends Composite implements IManageble{
 	private Text text;
@@ -35,23 +43,31 @@ public class FireComposite extends Composite implements IManageble{
 		
 		Button btnOk = new Button(this, SWT.NONE);
 		btnOk.addMouseListener(new MouseAdapter() {
+			private String fireProgrammerStatus;
 			@Override
 			public void mouseDown(MouseEvent e) {
 				//FIXME modify here
-				/*InitialContext ctx;
-				boolean result=false;
-				String name = text.getText();
-				try {
-					ctx = new InitialContext();
-					ProgrammerSessionRemote  bean = ( ProgrammerSessionRemote) ctx.lookup("programmerSession"); 
-					result = bean.fireProgrammer(name);
-				} catch (NamingException e1) {
-					e1.printStackTrace();
-				} 
-				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, result ? "Programmer "+name+" succesfully fired":"Programmer "+name+" could not be fired, sorry :(");
+				final String programmerName = text.getText();
+				Display.getCurrent().syncExec(new Runnable() {
+					
+					public void run() {
+						FireProgrammerService shs = new FireProgrammerService();
+
+						FireProgrammer sh = shs.getFireProgrammerPort();
+
+						((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/fire");
+
+						System.out.println( ((BindingProvider)sh).toString() );
+
+						fireProgrammerStatus = sh.fireProgrammer(programmerName);
+						
+					}
+				});
+				
+				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, fireProgrammerStatus);
 				for (IListener listener : listeners) {
 					listener.contentChanged(messageComposite);
-				}*/
+				}
 			}
 		});
 		btnOk.setBounds(167, 86, 94, 30);
