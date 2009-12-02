@@ -1,12 +1,20 @@
 package usr.speedy.overview;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.ws.BindingProvider;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
+import usr.speedy.ds.client.overview.Overview;
+import usr.speedy.ds.client.overview.OverviewService;
 
 public class SystemOverview extends Composite implements IManageble{
 
@@ -14,7 +22,6 @@ public class SystemOverview extends Composite implements IManageble{
 	private Combo availableProgrammersCombo;
 	private Combo busyProgrammersCombo;
 	private Combo openTasksCombo;
-
 
 	/**
 	 * Create the composite.
@@ -55,86 +62,80 @@ public class SystemOverview extends Composite implements IManageble{
 		busyProgrammersCombo = new Combo(this, SWT.READ_ONLY);
 		busyProgrammersCombo.setBounds(130, 112, 120, 22);
 		busyProgrammersCombo.setItems(getBusyProgrammers());
+		
 	}
 	
 	private String[] getOpenTasks() {
-		//FIXME modify here
-		/*InitialContext ctx;
-		try {
-			ctx = new InitialContext();
-			AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession"); 
-			List<Task> openTasks = bean.getOpenTasks();
-			String[] openTasksNames = new String[openTasks.size()];
-			int i = 0;
-			for (Task aTask : openTasks) {
-				openTasksNames[i++] = aTask.getName(); 
-			}
-			return openTasksNames;
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}*/
-		return new String[0];
+		final List<String> elements = new ArrayList<String>();
+		Display.getCurrent().syncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				OverviewService shs = new OverviewService();
 
+				Overview sh = shs.getOverviewPort();
+
+				((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/overview");
+				
+				elements.addAll(sh.getOpenTasks());
+			}
+		});
+		return elements.toArray(new String[elements.size()]);
 	}
 	
 	private String[] getClosedTasks() {
-		//FIXME modify here
-		/*InitialContext ctx;
-		try {
-			ctx = new InitialContext();
-			AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession"); 
-			List<Task> closedTasks = bean.getClosedTasks();
-			String[] closedTasksNames = new String[closedTasks.size()];
-			int i = 0;
-			for (Task aTask : closedTasks) {
-				closedTasksNames[i++] = aTask.getName(); 
+		final List<String> elements = new ArrayList<String>();
+		Display.getCurrent().syncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				OverviewService shs = new OverviewService();
+
+				Overview sh = shs.getOverviewPort();
+
+				((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/overview");
+				
+				elements.addAll(sh.getClosedTaks());
 			}
-			return closedTasksNames;
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}*/
-		return new String[0];
+		});
+		return elements.toArray(new String[elements.size()]);
 
 	}
 	
 	private String[] getAvailableProgrammers() {
-		//FIXME modify here
-		/*InitialContext ctx;
-		try {
-			ctx = new InitialContext();
-			AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession"); 
-			List<Programmer> availableProgrammers = bean.getAvailableProgrammers();
-			String[] availableProgrammersNames = new String[availableProgrammers.size()];
-			int i = 0;
-			for (Programmer aProgrammer : availableProgrammers) {
-				availableProgrammersNames[i++] = aProgrammer.getName(); 
-			}
-			return availableProgrammersNames;
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}*/
-		return new String[0];
+		final List<String> elements = new ArrayList<String>();
+		Display.getCurrent().syncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				OverviewService shs = new OverviewService();
 
+				Overview sh = shs.getOverviewPort();
+
+				((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/overview");
+				
+				elements.addAll(sh.getAvailableProgrammers());
+			}
+		});
+		return elements.toArray(new String[elements.size()]);
 	}
 	
 	private String[] getBusyProgrammers() {
-		//FIXME modify here
-		/*InitialContext ctx;
-		try {
-			ctx = new InitialContext();
-			AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession"); 
-			List<Programmer> busyProgrammers = bean.getBusyProgrammers();
-			String[] busyProgrammersNames = new String[busyProgrammers.size()];
-			int i = 0;
-			for (Programmer aProgrammer : busyProgrammers) {
-				busyProgrammersNames[i++] = aProgrammer.getName(); 
-			}
-			return busyProgrammersNames;
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}*/
-		return new String[0];
+		final List<String> elements = new ArrayList<String>();
+		Display.getCurrent().syncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				OverviewService shs = new OverviewService();
 
+				Overview sh = shs.getOverviewPort();
+
+				((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/overview");
+				
+				elements.addAll(sh.getBusyProgrammers());
+			}
+		});
+		return elements.toArray(new String[elements.size()]);
 	}
 
 	@Override

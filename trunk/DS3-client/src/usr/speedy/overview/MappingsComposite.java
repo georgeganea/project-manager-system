@@ -1,5 +1,10 @@
 package usr.speedy.overview;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.ws.BindingProvider;
+
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -8,32 +13,34 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
+import usr.speedy.ds.client.overview.Overview;
+import usr.speedy.ds.client.overview.OverviewService;
 
 public class MappingsComposite extends Composite implements IManageble{
 
 	public class TreeContentProvider implements ITreeContentProvider {
 
-		public Object[] getChildren(Object arg0) {
-			//FIXME modify here
-			/*System.out.println("Clasa:"+arg0.getClass());
-			if (arg0 instanceof Task){
-				System.out.println(">>>>"+arg0);
-				InitialContext ctx;
-				try {
-					ctx = new InitialContext();
-					AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession");
-					List<Programmer> programmersForTask = bean.getProgrammersForTask(((Task)arg0).getName());
-					if (programmersForTask != null)
-						return programmersForTask.toArray(new Programmer[programmersForTask.size()]);
-				} catch (NamingException e) {
-					e.printStackTrace();
+		public Object[] getChildren(final Object arg0) {
+			final List<String> elements = new ArrayList<String>();
+			Display.getCurrent().syncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					OverviewService shs = new OverviewService();
+
+					Overview sh = shs.getOverviewPort();
+
+					((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/overview");
+					
+					elements.addAll(sh.getProgrammersForTask((String)arg0));
 				}
-			}*/
-			return new Object[0];
+			});
+			return elements.toArray(new String[elements.size()]);
 		}
 
 
@@ -42,23 +49,25 @@ public class MappingsComposite extends Composite implements IManageble{
 		}
 
 		public boolean hasChildren(Object arg0) {
-			//FIXME modify here
-			/*return (arg0 instanceof Task);*/
-			return false;
+			return true;
 		}
 
 		public Object[] getElements(Object arg0) {
-			//FIXME modify here
-			/*InitialContext ctx;
-			try {
-				ctx = new InitialContext();
-				AssignmentSessionRemote  bean = ( AssignmentSessionRemote) ctx.lookup("assignmentSession");
-				List<Task> openTasks = bean.getOpenTasks();
-				return openTasks.toArray(new Task[openTasks.size()]);
-			} catch (NamingException e) {
-				e.printStackTrace();
-			}*/
-			return new Object[0];
+			final List<String> elements = new ArrayList<String>();
+			Display.getCurrent().syncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					OverviewService shs = new OverviewService();
+
+					Overview sh = shs.getOverviewPort();
+
+					((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/overview");
+					
+					elements.addAll(sh.getOpenTasks());
+				}
+			});
+			return elements.toArray(new String[elements.size()]);
 		}
 
 		public void dispose() {
@@ -80,14 +89,7 @@ public class MappingsComposite extends Composite implements IManageble{
 		}
 
 		public String getText(Object arg0) {
-			//FIXME modify here
-			/*if (arg0 instanceof Programmer){
-				return ((Programmer)arg0).getName();
-			}
-			if (arg0 instanceof Task){
-				return ((Task)arg0).getName();
-			}*/
-			return "error";
+			return (String)arg0;
 		}
 
 		public void addListener(ILabelProviderListener arg0) {
