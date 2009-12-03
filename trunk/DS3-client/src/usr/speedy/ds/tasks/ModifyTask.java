@@ -45,7 +45,6 @@ public class ModifyTask extends Composite implements IManageble{
 		Label lblName = new Label(this, SWT.NONE);
 		lblName.setBounds(34, 45, 48, 14);
 		lblName.setText("Name:");
-		final Composite thisComposite = this;
 		text = new Text(this, SWT.BORDER);
 		text.setBounds(88, 42, 173, 19);
 
@@ -70,7 +69,7 @@ public class ModifyTask extends Composite implements IManageble{
 				});
 				
 				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, foundTaskStatus);
-				System.out.print(foundTaskStatus);
+				System.out.println(foundTaskStatus);
 				for (IListener listener : listeners) {
 					listener.contentChanged(messageComposite);
 				}
