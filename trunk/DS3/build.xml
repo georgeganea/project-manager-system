@@ -9,5 +9,11 @@
  	<exec executable="wsgen">
  	 	  	<arg line="-cp ./bin -keep -s ./src -d ./bin usr.speedy.ds.overview.Overview"/>
  	 	  </exec>
+ 	<exec executable="wsgen">
+ 	 	 	  	<arg line="-cp ./bin -keep -s ./src -d ./bin usr.speedy.ds.ModifyTask"/>
+ 	 	 	  </exec>
+ 	<exec executable="wsgen">
+ 	 	 	  	<arg line="-cp ./bin -keep -s ./src -d ./bin usr.speedy.ds.FoundTask"/>
+ 	 	 	  </exec>
  </target>
 </project>
