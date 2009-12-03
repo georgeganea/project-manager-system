@@ -13,6 +13,16 @@
   		<arg line="-keep -s ./src -p usr.speedy.ds.client.programmers -d ./bin http://localhost:8083/DS3/fire?wsdl"/>
   	    		
   	</exec>
+  	<exec executable="wsimport">
+  	  		  	    	
+  	  		<arg line="-keep -s ./src -p usr.speedy.ds.client.tasks -d ./bin http://localhost:8083/DS3/find?wsdl"/>
+  	  		  	    		
+  	  	</exec>
+  	  	<exec executable="wsimport">
+  	  	  		  	    	
+  	  	  		<arg line="-keep -s ./src -p usr.speedy.ds.client.tasks -d ./bin http://localhost:8083/DS3/modify?wsdl"/>
+  	  	  		  	    		
+  	  	  	</exec>
 
   	<exec executable="wsimport">
   		  	    	

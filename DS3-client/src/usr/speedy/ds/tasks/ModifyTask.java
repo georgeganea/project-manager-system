@@ -4,17 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.InitialContext;
+import javax.xml.ws.BindingProvider;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
+import usr.speedy.ds.MessageComposite;
+import usr.speedy.ds.client.programmers.FireProgrammer;
+import usr.speedy.ds.client.programmers.FireProgrammerService;
+import usr.speedy.ds.client.tasks.FoundTask;
+import usr.speedy.ds.client.tasks.FoundTaskService;
 
 public class ModifyTask extends Composite implements IManageble{
 	private Text text;
@@ -44,29 +51,31 @@ public class ModifyTask extends Composite implements IManageble{
 
 		Button btnOk = new Button(this, SWT.NONE);
 		btnOk.addMouseListener(new MouseAdapter() {
-			InitialContext ctx;
-
+			private String foundTaskStatus;
 			@Override
 			public void mouseDown(MouseEvent e) {
 				//FIXME modify here
-				/*
-				try {
-					ctx = new InitialContext();
-					TaskSessionRemote  bean = ( TaskSessionRemote) ctx.lookup("taskSession"); 
-					bean.modify(result, text.getText(), text_1.getText());
-				} catch (NamingException e1) {
-					e1.printStackTrace();
-				}
-				thisComposite.dispose();
-				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, "modified the task "+result);
-				parent.setBounds(75, 10, 339, 213);
-				parent.setVisible(true);
-				parent.redraw();
+			
+				final String taskName = text.getText();
+				final String nbPrg = text_1.getText();
+				Display.getCurrent().syncExec(new Runnable() {
+					
+					public void run() {
+						FoundTaskService shs = new FoundTaskService();
+						FoundTask sh = shs.getFoundTaskPort();
+						((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/modify");
+						System.out.println( ((BindingProvider)sh).toString() );
+						foundTaskStatus = sh.foundTask(result,taskName,nbPrg);
+					}
+				});
+				
+				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, foundTaskStatus);
+				System.out.print(foundTaskStatus);
 				for (IListener listener : listeners) {
 					listener.contentChanged(messageComposite);
 				}
-				*/
 			}
+			
 		});
 		btnOk.setBounds(167, 114, 94, 30);
 		btnOk.setText("Ok");
@@ -76,13 +85,12 @@ public class ModifyTask extends Composite implements IManageble{
 		lblInsertTheName.setText("Modify Task "+result);
 
 		Label lblStatus = new Label(this, SWT.NONE);
-		lblStatus.setBounds(12, 77, 60, 14);
-		lblStatus.setText("Status open/closed :");
-
-
-
+		lblStatus.setBounds(0, 77, 68, 14);
+		lblStatus.setText("New nb of programmers :");
+       
 		text_1 = new Text(this, SWT.BORDER);
 		text_1.setBounds(88, 74, 173, 19);
+		
 
 	}
 
