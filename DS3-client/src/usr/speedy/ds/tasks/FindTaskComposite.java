@@ -3,16 +3,22 @@ package usr.speedy.ds.tasks;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.ws.BindingProvider;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
+import usr.speedy.ds.MessageComposite;
+import usr.speedy.ds.client.tasks.ModifyTask;
+import usr.speedy.ds.client.tasks.ModifyTaskService;
 
 public class FindTaskComposite extends Composite implements IManageble{
 	private Text text;
@@ -35,26 +41,41 @@ public class FindTaskComposite extends Composite implements IManageble{
 		
 		Button btnOk = new Button(this, SWT.NONE);
 		btnOk.addMouseListener(new MouseAdapter() {
+			private String modifyTaskStatus;
 			@Override
 			public void mouseDown(MouseEvent e) {
 				//FIXME modify here
-				/*
-				InitialContext ctx;
-				int result=0;
-				String name = text.getText();
-				try {
-					ctx = new InitialContext();
-					TaskSessionRemote  bean = ( TaskSessionRemote) ctx.lookup("taskSession"); 
-					result = bean.findTaskID(name);
-				} catch (NamingException e1) {
-					e1.printStackTrace();
-				} 
+				final String taskName = text.getText();
+				Display.getCurrent().syncExec(new Runnable() {
+					
+					public void run() {
+						ModifyTaskService shs = new ModifyTaskService();
+
+						ModifyTask sh = shs.getModifyTaskPort();
+
+						((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/find");
+
+						System.out.println( ((BindingProvider)sh).toString() );
+
+						modifyTaskStatus = sh.modifyTask(taskName);
+						
+					}
+				});
 				
-				ModifyTask messageComposite = new ModifyTask(parent, SWT.NONE,result);
-				for (IListener listener : listeners) {
-					listener.contentChanged(messageComposite);
+				if (isIntNumber(modifyTaskStatus) == false)
+				{
+					MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, modifyTaskStatus);
+					   
+					for (IListener listener : listeners) {
+						listener.contentChanged(messageComposite);
+					}
+				}else{
+					usr.speedy.ds.tasks.ModifyTask test = new usr.speedy.ds.tasks.ModifyTask(parent,SWT.NONE,Integer.parseInt(modifyTaskStatus));
+					for (IListener listener : listeners) {
+						listener.contentChanged(test);
+					}
 				}
-				*/
+					
 			}
 		});
 		btnOk.setBounds(167, 86, 94, 30);
@@ -65,6 +86,14 @@ public class FindTaskComposite extends Composite implements IManageble{
 		lblInsertTheName.setText("Insert the name of the task you want to modify:");
 
 
+	}
+	private boolean isIntNumber(String num){
+	    try{
+	        Integer.parseInt(num);
+	    } catch(NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
 	}
 
 	@Override
