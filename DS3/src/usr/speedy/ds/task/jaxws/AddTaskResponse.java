@@ -1,5 +1,5 @@
 
-package usr.speedy.ds.jaxws;
+package usr.speedy.ds.task.jaxws;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name = "modifyTaskResponse", namespace = "http://ds.speedy.usr/")
+@XmlRootElement(name = "addTaskResponse", namespace = "http://task.ds.speedy.usr/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "modifyTaskResponse", namespace = "http://ds.speedy.usr/")
-public class ModifyTaskResponse {
+@XmlType(name = "addTaskResponse", namespace = "http://task.ds.speedy.usr/")
+public class AddTaskResponse {
 
     @XmlElement(name = "return", namespace = "")
     private String _return;
