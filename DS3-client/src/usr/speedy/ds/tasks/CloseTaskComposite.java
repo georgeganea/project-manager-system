@@ -17,27 +17,25 @@ import org.eclipse.swt.widgets.Text;
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
 import usr.speedy.ds.MessageComposite;
-import usr.speedy.ds.client.programmers.AddProgrammer;
-import usr.speedy.ds.client.programmers.AddProgrammerService;
 import usr.speedy.ds.client.task.AddTask;
 import usr.speedy.ds.client.task.AddTaskService;
+import usr.speedy.ds.client.task.CloseTask;
+import usr.speedy.ds.client.task.CloseTaskService;
 
-public class AddTaskComposite extends Composite implements IManageble{
+public class CloseTaskComposite extends Composite implements IManageble{
 	private Text text;
 	private List<IListener> listeners = new ArrayList<IListener>();
-	private Text text_1;
 
 	/**
 	 * Create the composite.
 	 * @param parent
 	 * @param style
-	 * @param result 
 	 */
-	public AddTaskComposite(final Composite parent, int style) {
+	public CloseTaskComposite(final Composite parent, int style) {
 		super(parent, style);
 		
 		Label lblName = new Label(this, SWT.NONE);
-		lblName.setBounds(34, 45, 48, 14);
+		lblName.setBounds(43, 45, 39, 14);
 		lblName.setText("Name:");
 		
 		text = new Text(this, SWT.BORDER);
@@ -45,45 +43,38 @@ public class AddTaskComposite extends Composite implements IManageble{
 		
 		Button btnOk = new Button(this, SWT.NONE);
 		btnOk.addMouseListener(new MouseAdapter() {
-			private String addTaskStatus;
+			private String closeTaskStatus;
 			@Override
 			public void mouseDown(MouseEvent e) {
 				final String taskName = text.getText();
-				final String noOfProgrammers = text_1.getText();
 				Display.getCurrent().syncExec(new Runnable() {
 					
 					public void run() {
-						AddTaskService shs = new AddTaskService();
+						CloseTaskService shs = new CloseTaskService();
 
-						AddTask sh = shs.getAddTaskPort();
+						CloseTask sh = shs.getCloseTaskPort();
 
-						((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/addtask");
+						((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/closetask");
 
 						System.out.println( ((BindingProvider)sh).toString() );
 
-						addTaskStatus = sh.addTask(taskName,noOfProgrammers);
+						closeTaskStatus = sh.closeTask(taskName);
 						
 					}
 				});
-				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, addTaskStatus);
+				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, closeTaskStatus);
 				for (IListener listener : listeners) {
 					listener.contentChanged(messageComposite);
 				}
 			}
 		});
-		btnOk.setBounds(167, 114, 94, 30);
+		btnOk.setBounds(167, 86, 94, 30);
 		btnOk.setText("Ok");
 		
 		Label lblInsertTheName = new Label(this, SWT.NONE);
-		lblInsertTheName.setBounds(10, 10, 328, 16);
-		lblInsertTheName.setText("Add Task ");
-		
-		Label lblStatus = new Label(this, SWT.NONE);
-		lblStatus.setBounds(12, 77, 60, 14);
-		lblStatus.setText("Programmers:");
-		
-		text_1 = new Text(this, SWT.BORDER);
-		text_1.setBounds(88, 74, 173, 19);
+		lblInsertTheName.setBounds(10, 10, 287, 16);
+		lblInsertTheName.setText("Insert the name of the task you want to close:");
+
 
 	}
 
@@ -95,4 +86,5 @@ public class AddTaskComposite extends Composite implements IManageble{
 	public void addListener(IListener listener) {
 		listeners.add(listener);
 	}
+
 }
