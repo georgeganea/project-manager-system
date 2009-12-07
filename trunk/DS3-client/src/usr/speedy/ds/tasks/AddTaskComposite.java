@@ -59,8 +59,6 @@ public class AddTaskComposite extends Composite implements IManageble{
 
 						((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/addtask");
 
-						System.out.println( ((BindingProvider)sh).toString() );
-
 						addTaskStatus = sh.addTask(taskName,noOfProgrammers);
 						
 					}
