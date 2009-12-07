@@ -55,7 +55,7 @@ public class TasksCTab {
 				findTaskComposite.addListener(new IListener() {
 					public void contentChanged(Composite c) {
 						findTaskComposite.dispose();
-						c.setBounds(75, 10, 339, 213);
+						c.setBounds(10, 10, 339, 213);
 						c.setVisible(true);
 						shell.redraw();
 					}
@@ -98,7 +98,7 @@ public class TasksCTab {
 				findTaskComposite.addListener(new IListener() {
 					public void contentChanged(Composite c) {
 						findTaskComposite.dispose();
-						c.setBounds(75, 10, 339, 213);
+						c.setBounds(10, 10, 339, 213);
 						c.setVisible(true);
 						shell.redraw();
 					}
@@ -124,7 +124,7 @@ public class TasksCTab {
 				findTaskComposite.addListener(new IListener() {
 					public void contentChanged(Composite c) {
 						findTaskComposite.dispose();
-						c.setBounds(75, 10, 339, 213);
+						c.setBounds(10, 10, 339, 213);
 						c.setVisible(true);
 						shell.redraw();
 					}
