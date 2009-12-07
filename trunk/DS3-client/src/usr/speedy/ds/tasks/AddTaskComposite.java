@@ -76,14 +76,14 @@ public class AddTaskComposite extends Composite implements IManageble{
 		
 		Label lblInsertTheName = new Label(this, SWT.NONE);
 		lblInsertTheName.setBounds(10, 10, 328, 16);
-		lblInsertTheName.setText("Add Task ");
+		lblInsertTheName.setText("Create a new task with the given name");
 		
 		Label lblStatus = new Label(this, SWT.NONE);
-		lblStatus.setBounds(12, 77, 60, 14);
+		lblStatus.setBounds(12, 77, 90, 16);
 		lblStatus.setText("Programmers:");
 		
 		text_1 = new Text(this, SWT.BORDER);
-		text_1.setBounds(88, 74, 173, 19);
+		text_1.setBounds(100, 74, 160, 19);
 
 	}
 
