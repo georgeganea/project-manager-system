@@ -1,4 +1,4 @@
-package usr.speedy.overview;
+package usr.speedy.ds.overview;
 
 import java.util.ArrayList;
 import java.util.List;
