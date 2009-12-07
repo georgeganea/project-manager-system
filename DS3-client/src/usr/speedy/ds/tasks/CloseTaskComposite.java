@@ -56,8 +56,6 @@ public class CloseTaskComposite extends Composite implements IManageble{
 
 						((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/closetask");
 
-						System.out.println( ((BindingProvider)sh).toString() );
-
 						closeTaskStatus = sh.closeTask(taskName);
 						
 					}

@@ -3,7 +3,6 @@ package usr.speedy.ds.tasks;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.InitialContext;
 import javax.xml.ws.BindingProvider;
 
 import org.eclipse.swt.SWT;
@@ -18,8 +17,6 @@ import org.eclipse.swt.widgets.Text;
 import usr.speedy.ds.IListener;
 import usr.speedy.ds.IManageble;
 import usr.speedy.ds.MessageComposite;
-import usr.speedy.ds.client.programmers.FireProgrammer;
-import usr.speedy.ds.client.programmers.FireProgrammerService;
 import usr.speedy.ds.client.tasks.FoundTask;
 import usr.speedy.ds.client.tasks.FoundTaskService;
 
@@ -53,8 +50,6 @@ public class ModifyTask extends Composite implements IManageble{
 			private String foundTaskStatus;
 			@Override
 			public void mouseDown(MouseEvent e) {
-				//FIXME modify here
-			
 				final String taskName = text.getText();
 				final String nbPrg = text_1.getText();
 				Display.getCurrent().syncExec(new Runnable() {
@@ -63,13 +58,11 @@ public class ModifyTask extends Composite implements IManageble{
 						FoundTaskService shs = new FoundTaskService();
 						FoundTask sh = shs.getFoundTaskPort();
 						((BindingProvider)sh).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8083/DS3/modify");
-						System.out.println( ((BindingProvider)sh).toString() );
 						foundTaskStatus = sh.foundTask(result,taskName,nbPrg);
 					}
 				});
 				
 				MessageComposite messageComposite = new MessageComposite(parent, SWT.NONE, foundTaskStatus);
-				System.out.println(foundTaskStatus);
 				for (IListener listener : listeners) {
 					listener.contentChanged(messageComposite);
 				}
@@ -84,11 +77,11 @@ public class ModifyTask extends Composite implements IManageble{
 		lblInsertTheName.setText("Modify Task "+result);
 
 		Label lblStatus = new Label(this, SWT.NONE);
-		lblStatus.setBounds(0, 77, 68, 14);
+		lblStatus.setBounds(0, 77, 168, 16);
 		lblStatus.setText("New nb of programmers :");
        
 		text_1 = new Text(this, SWT.BORDER);
-		text_1.setBounds(88, 74, 173, 19);
+		text_1.setBounds(188, 74, 73, 19);
 		
 
 	}

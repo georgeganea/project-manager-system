@@ -60,19 +60,6 @@ public class TasksCTab {
 						shell.redraw();
 					}
 				});
-				/*final HireComposite hireComposite = new HireComposite(mainCompositeTasks, SWT.NONE);
-				hireComposite.setBounds(75, 10, 339, 213);
-				hireComposite.setVisible(true);
-				shell.redraw();
-				hireComposite.addListener(new IListener() {
-					
-					public void contentChanged(Composite c) {
-						hireComposite.dispose();
-						c.setBounds(75, 10, 339, 213);
-						c.setVisible(true);
-						shell.redraw();
-					}
-				});*/
 			}
 		});
 		
