@@ -11,9 +11,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import usr.speedy.ds.overview.OverviewCTab;
 import usr.speedy.ds.programmers.ProgrammersCTab;
 import usr.speedy.ds.tasks.TasksCTab;
-import usr.speedy.overview.OverviewCTab;
 
 public class ApplicationWindow {
 
